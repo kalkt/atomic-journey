@@ -1,0 +1,331 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <filter id="ft-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ft-text-glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ft-soft">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="ft-panel-glow" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="edge-history" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff6600" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#cc00ff" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="edge-future" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ffdd" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ff6600" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="edge-present" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffcc00" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#00ffdd" stop-opacity="0.9"/>
+    </linearGradient>
+    <radialGradient id="node-history" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff6600" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#441100" stop-opacity="0.8"/>
+    </radialGradient>
+    <radialGradient id="node-future" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ffdd" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#003322" stop-opacity="0.8"/>
+    </radialGradient>
+    <radialGradient id="node-present" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffcc00" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#221100" stop-opacity="0.8"/>
+    </radialGradient>
+    <radialGradient id="center-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#cc00ff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panel-bg-teal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#021a16" stop-opacity="0.97"/>
+      <stop offset="100%" stop-color="#030812" stop-opacity="0.97"/>
+    </linearGradient>
+    <linearGradient id="panel-bg-orange" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a0a00" stop-opacity="0.97"/>
+      <stop offset="100%" stop-color="#080308" stop-opacity="0.97"/>
+    </linearGradient>
+    <linearGradient id="panel-bg-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#181000" stop-opacity="0.97"/>
+      <stop offset="100%" stop-color="#080604" stop-opacity="0.97"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    @keyframes ft-enter {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes ring-pulse-teal {
+      0%, 100% { r: 18; opacity: 0.85; }
+      50%       { r: 22; opacity: 1; }
+    }
+    @keyframes ring-pulse-orange {
+      0%, 100% { r: 18; opacity: 0.85; }
+      50%       { r: 22; opacity: 1; }
+    }
+    @keyframes ring-pulse-amber {
+      0%, 100% { r: 18; opacity: 0.85; }
+      50%       { r: 22; opacity: 1; }
+    }
+    @keyframes center-blink {
+      0%, 100% { opacity: 0.5; r: 3; }
+      50%       { opacity: 1;   r: 5; }
+    }
+
+    .main-content {
+      animation: ft-enter 1.1s ease forwards;
+    }
+
+    /* ── Vertex groups ── */
+    .vertex-group { cursor: pointer; }
+
+    /* Rings animate by default; stop animating on hover */
+    .vring-future  { animation: ring-pulse-teal   3s ease-in-out infinite; }
+    .vring-history { animation: ring-pulse-orange 4s ease-in-out infinite; }
+    .vring-present { animation: ring-pulse-amber  3.5s ease-in-out infinite; }
+
+    .vertex-group:hover .vring-future,
+    .vertex-group:hover .vring-history,
+    .vertex-group:hover .vring-present {
+      animation: none;
+      r: 26;
+      opacity: 1;
+    }
+
+    .center-dot { animation: center-blink 2s ease-in-out infinite; }
+
+    /* ── Hover panels ── */
+    .hover-panel {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.38s ease;
+    }
+    .vertex-group:hover .hover-panel {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── Vertex label dims on non-hover ── */
+    .vertex-sub {
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+    .vertex-group:hover .vertex-sub {
+      opacity: 0.85;
+    }
+
+    /* Edge labels */
+    .edge-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      fill: #cc00ff;
+      opacity: 0.5;
+      letter-spacing: 2px;
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="900" height="720" fill="#030508" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-family="'Orbitron',monospace" font-size="13"
+    fill="#e0e8f0" letter-spacing="4" font-weight="700">FUTURES TRIANGLE — NUCLEAR ENERGY SECTOR</text>
+  <line x1="60" y1="50" x2="840" y2="50" stroke="#ffffff" stroke-width="0.4" opacity="0.1"/>
+
+  <g class="main-content">
+
+    <!-- Center ambient glow -->
+    <ellipse cx="450" cy="390" rx="200" ry="160" fill="url(#center-glow)" filter="url(#ft-soft)"/>
+
+    <!-- ── Triangle edges ── -->
+    <line x1="130" y1="620" x2="450" y2="100" stroke="url(#edge-future)" stroke-width="2.5"
+      opacity="0.75" filter="url(#ft-glow)">
+      <animate attributeName="opacity" values="0.75;1;0.75" dur="4s" repeatCount="indefinite"/>
+    </line>
+    <line x1="450" y1="100" x2="770" y2="620" stroke="url(#edge-present)" stroke-width="2.5"
+      opacity="0.75" filter="url(#ft-glow)">
+      <animate attributeName="opacity" values="0.75;0.95;0.75" dur="5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="130" y1="620" x2="770" y2="620" stroke="url(#edge-history)" stroke-width="2.5"
+      opacity="0.75" filter="url(#ft-glow)">
+      <animate attributeName="opacity" values="0.75;1;0.75" dur="3.5s" repeatCount="indefinite"/>
+    </line>
+
+    <!-- Inner tension polygon -->
+    <polygon points="290,460 450,210 610,460"
+      fill="rgba(200,0,255,0.04)" stroke="#cc00ff" stroke-width="0.8"
+      stroke-dasharray="8,6" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.7;0.4" dur="6s" repeatCount="indefinite"/>
+    </polygon>
+
+    <!-- Center: NUCLEAR ENERGY SECTOR -->
+    <text x="450" y="358" text-anchor="middle" font-family="'Orbitron',monospace" font-size="8"
+      fill="#cc00ff" letter-spacing="3" opacity="0.65">NUCLEAR</text>
+    <text x="450" y="372" text-anchor="middle" font-family="'Orbitron',monospace" font-size="8"
+      fill="#cc00ff" letter-spacing="3" opacity="0.65">ENERGY</text>
+    <text x="450" y="386" text-anchor="middle" font-family="'Orbitron',monospace" font-size="8"
+      fill="#cc00ff" letter-spacing="3" opacity="0.65">SECTOR</text>
+    <circle class="center-dot" cx="450" cy="408" r="3" fill="#cc00ff"/>
+
+    <!-- ── Edge tension labels (horizontal, readable) ── -->
+    <!-- Left edge (History→Future) midpoint ~(290,360) -->
+    <text x="192" y="352" text-anchor="middle" class="edge-label">TECHNOLOGY</text>
+    <text x="192" y="364" text-anchor="middle" class="edge-label">VS. LEGACY</text>
+    <!-- Right edge (Future→Present) midpoint ~(610,360) -->
+    <text x="710" y="352" text-anchor="middle" class="edge-label">EFFICIENCY</text>
+    <text x="710" y="364" text-anchor="middle" class="edge-label">VS. POLITICS</text>
+    <!-- Bottom edge midpoint (450,620) -->
+    <text x="450" y="644" text-anchor="middle" class="edge-label">SHORT-TERM FOSSIL NEEDS  vs.  LONG-TERM NUCLEAR GOALS</text>
+
+    <!-- ══════════════════════════════
+         VERTEX: PULL OF THE FUTURE (top)
+         Hit area: 265–635 x, 60–295 y
+         Panel: 265–635 x, 115–293 y
+         ══════════════════════════════ -->
+    <g class="vertex-group" id="vg-future">
+      <!-- Hit area (transparent, pointer-events="all") -->
+      <rect x="265" y="60" width="370" height="235" fill="rgba(0,255,221,0.0)" pointer-events="all"/>
+
+      <!-- Glow halo -->
+      <circle cx="450" cy="100" r="40" fill="#00ffdd" opacity="0.07" filter="url(#ft-soft)"/>
+
+      <!-- Vertex ring -->
+      <circle class="vring-future" cx="450" cy="100" r="18" fill="url(#node-future)" filter="url(#ft-glow)"/>
+      <circle cx="450" cy="100" r="9" fill="#00ffdd" opacity="0.9"/>
+
+      <!-- Always-visible label -->
+      <text x="450" y="67" text-anchor="middle" font-family="'Orbitron',monospace" font-size="13"
+        fill="#00ffdd" font-weight="700" filter="url(#ft-text-glow)" letter-spacing="2">PULL OF THE FUTURE</text>
+      <text class="vertex-sub" x="450" y="81" text-anchor="middle" font-family="'Rajdhani',sans-serif"
+        font-size="11" fill="#00ffdd" letter-spacing="1">Aspirations &amp; Drivers</text>
+
+      <!-- ── Hover panel ── -->
+      <g class="hover-panel" id="panel-future">
+        <rect x="265" y="117" width="370" height="178" rx="5"
+          fill="url(#panel-bg-teal)" stroke="#00ffdd" stroke-width="0.9" stroke-opacity="0.55"
+          filter="url(#ft-panel-glow)"/>
+        <text x="290" y="139" font-family="'Share Tech Mono',monospace" font-size="9"
+          fill="#00ffdd" opacity="0.6" letter-spacing="2">▸ PULL FACTORS</text>
+        <line x1="280" y1="145" x2="625" y2="145" stroke="#00ffdd" stroke-width="0.5" opacity="0.25"/>
+        <text x="286" y="163" font-family="'Share Tech Mono',monospace" font-size="12"
+          fill="#80ffe8" opacity="0.95">▸ Unmatched energy density &amp; land efficiency</text>
+        <text x="286" y="181" font-family="'Share Tech Mono',monospace" font-size="12"
+          fill="#80ffe8" opacity="0.9">▸ Dispatchable baseload — weather-independent</text>
+        <text x="286" y="199" font-family="'Share Tech Mono',monospace" font-size="12"
+          fill="#80ffe8" opacity="0.9">▸ Carbon-free power at industrial scale</text>
+        <text x="286" y="217" font-family="'Share Tech Mono',monospace" font-size="12"
+          fill="#80ffe8" opacity="0.85">▸ Fusion as the long-horizon breakthrough</text>
+        <text x="286" y="235" font-family="'Share Tech Mono',monospace" font-size="12"
+          fill="#80ffe8" opacity="0.85">▸ SMRs enabling distributed deployment</text>
+        <text x="450" y="285" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="8"
+          fill="#00ffdd" opacity="0.35" letter-spacing="1">— hover to explore —</text>
+      </g>
+    </g>
+
+    <!-- ══════════════════════════════
+         VERTEX: WEIGHT OF HISTORY (bottom-left)
+         Hit area: 10–400 x, 440–642 y
+         Panel: 10–330 x, 440–620 y
+         ══════════════════════════════ -->
+    <g class="vertex-group" id="vg-history">
+      <rect x="10" y="440" width="390" height="202" fill="rgba(255,102,0,0.0)" pointer-events="all"/>
+
+      <!-- Glow halo -->
+      <circle cx="130" cy="620" r="40" fill="#ff6600" opacity="0.07" filter="url(#ft-soft)"/>
+
+      <!-- Vertex ring -->
+      <circle class="vring-history" cx="130" cy="620" r="18" fill="url(#node-history)" filter="url(#ft-glow)"/>
+      <circle cx="130" cy="620" r="9" fill="#ff6600" opacity="0.9"/>
+
+      <!-- Always-visible label (below vertex) -->
+      <text x="130" y="652" text-anchor="middle" font-family="'Orbitron',monospace" font-size="12"
+        fill="#ff6600" font-weight="700" filter="url(#ft-text-glow)" letter-spacing="1">WEIGHT OF</text>
+      <text x="130" y="667" text-anchor="middle" font-family="'Orbitron',monospace" font-size="12"
+        fill="#ff6600" font-weight="700" filter="url(#ft-text-glow)" letter-spacing="1">HISTORY</text>
+      <text class="vertex-sub" x="130" y="681" text-anchor="middle" font-family="'Rajdhani',sans-serif"
+        font-size="10" fill="#ff6600" letter-spacing="1">Path Dependencies</text>
+
+      <!-- ── Hover panel (appears above vertex) ── -->
+      <g class="hover-panel" id="panel-history">
+        <rect x="10" y="441" width="322" height="178" rx="5"
+          fill="url(#panel-bg-orange)" stroke="#ff6600" stroke-width="0.9" stroke-opacity="0.55"
+          filter="url(#ft-panel-glow)"/>
+        <text x="32" y="462" font-family="'Share Tech Mono',monospace" font-size="9"
+          fill="#ff6600" opacity="0.6" letter-spacing="2">▸ LEGACY CONSTRAINTS</text>
+        <line x1="22" y1="468" x2="322" y2="468" stroke="#ff6600" stroke-width="0.5" opacity="0.25"/>
+        <text x="26" y="487" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffaa66" opacity="0.95">▸ Chernobyl &amp; Fukushima legacy</text>
+        <text x="26" y="505" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffaa66" opacity="0.9">▸ Regulatory burden (1970s frameworks)</text>
+        <text x="26" y="523" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffaa66" opacity="0.9">▸ High construction costs &amp; timelines</text>
+        <text x="26" y="541" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffaa66" opacity="0.85">▸ Radioactive waste &amp; NIMBY opposition</text>
+        <text x="26" y="559" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffaa66" opacity="0.85">▸ Political phase-out commitments</text>
+        <text x="166" y="608" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="8"
+          fill="#ff6600" opacity="0.35" letter-spacing="1">— hover to explore —</text>
+      </g>
+    </g>
+
+    <!-- ══════════════════════════════
+         VERTEX: PUSH OF THE PRESENT (bottom-right)
+         Hit area: 500–890 x, 440–642 y
+         Panel: 568–890 x, 440–620 y
+         ══════════════════════════════ -->
+    <g class="vertex-group" id="vg-present">
+      <rect x="500" y="440" width="390" height="202" fill="rgba(255,204,0,0.0)" pointer-events="all"/>
+
+      <!-- Glow halo -->
+      <circle cx="770" cy="620" r="40" fill="#ffcc00" opacity="0.07" filter="url(#ft-soft)"/>
+
+      <!-- Vertex ring -->
+      <circle class="vring-present" cx="770" cy="620" r="18" fill="url(#node-present)" filter="url(#ft-glow)"/>
+      <circle cx="770" cy="620" r="9" fill="#ffcc00" opacity="0.9"/>
+
+      <!-- Always-visible label (below vertex) -->
+      <text x="770" y="652" text-anchor="middle" font-family="'Orbitron',monospace" font-size="12"
+        fill="#ffcc00" font-weight="700" filter="url(#ft-text-glow)" letter-spacing="1">PUSH OF THE</text>
+      <text x="770" y="667" text-anchor="middle" font-family="'Orbitron',monospace" font-size="12"
+        fill="#ffcc00" font-weight="700" filter="url(#ft-text-glow)" letter-spacing="1">PRESENT</text>
+      <text class="vertex-sub" x="770" y="681" text-anchor="middle" font-family="'Rajdhani',sans-serif"
+        font-size="10" fill="#ffcc00" letter-spacing="1">Current Disruptions</text>
+
+      <!-- ── Hover panel (appears above vertex, to the left) ── -->
+      <g class="hover-panel" id="panel-present">
+        <rect x="568" y="441" width="322" height="178" rx="5"
+          fill="url(#panel-bg-amber)" stroke="#ffcc00" stroke-width="0.9" stroke-opacity="0.55"
+          filter="url(#ft-panel-glow)"/>
+        <text x="590" y="462" font-family="'Share Tech Mono',monospace" font-size="9"
+          fill="#ffcc00" opacity="0.6" letter-spacing="2">▸ PRESENT FORCES</text>
+        <line x1="580" y1="468" x2="880" y2="468" stroke="#ffcc00" stroke-width="0.5" opacity="0.25"/>
+        <text x="585" y="487" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffe066" opacity="0.95">▸ AI &amp; data center power demand surge</text>
+        <text x="585" y="505" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffe066" opacity="0.9">▸ Geopolitical energy supply disruption</text>
+        <text x="585" y="523" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffe066" opacity="0.9">▸ Grid interconnection queue failures</text>
+        <text x="585" y="541" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffe066" opacity="0.85">▸ Climate decarbonization pressure</text>
+        <text x="585" y="559" font-family="'Share Tech Mono',monospace" font-size="11.5"
+          fill="#ffe066" opacity="0.85">▸ Fossil fuel dependency &amp; price volatility</text>
+        <text x="729" y="608" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="8"
+          fill="#ffcc00" opacity="0.35" letter-spacing="1">— hover to explore —</text>
+      </g>
+    </g>
+
+    <!-- Corner tactical brackets -->
+    <polyline points="10,10 10,40 40,40" fill="none" stroke="#cc00ff" stroke-width="1" opacity="0.3"/>
+    <polyline points="890,10 890,40 860,40" fill="none" stroke="#cc00ff" stroke-width="1" opacity="0.3"/>
+    <polyline points="10,710 10,680 40,680" fill="none" stroke="#cc00ff" stroke-width="1" opacity="0.3"/>
+    <polyline points="890,710 890,680 860,680" fill="none" stroke="#cc00ff" stroke-width="1" opacity="0.3"/>
+
+  </g><!-- /main-content -->
+</svg>

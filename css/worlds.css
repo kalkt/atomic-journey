@@ -1,0 +1,315 @@
+/* ═══════════════════════════════════════════════
+   WORLDS.CSS — Parallax Environment Layers
+   Each "world" is a full-viewport background stack
+   ═══════════════════════════════════════════════ */
+
+/* ── World base ── */
+.world {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-world);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity;
+  overflow: hidden;
+}
+
+.world.active  { opacity: 1; }
+.world.exiting { opacity: 0; }
+
+/* ══════════════════════════════
+   PARALLAX LAYER SYSTEM
+   ══════════════════════════════ */
+.parallax-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.parallax-layer img,
+.parallax-layer svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ══════════════════════════════
+   WORLD: REACTOR
+   Section: Executive Summary
+   Palette: deep crimson + orange glow
+   ══════════════════════════════ */
+#world-reactor {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 85%,
+    rgba(255, 60, 0, 0.18) 0%,
+    rgba(180, 30, 0, 0.08) 35%,
+    rgba(10, 2, 4, 0) 70%
+  ),
+  radial-gradient(
+    ellipse 120% 80% at 50% 100%,
+    #0a0204 0%,
+    #060102 60%,
+    #030100 100%
+  );
+}
+
+#world-reactor .layer-reactor-wall {
+  opacity: 0.9;
+}
+
+#world-reactor .layer-reactor-glow {
+  background: radial-gradient(
+    ellipse 60% 40% at 50% 90%,
+    rgba(255, 100, 0, 0.15) 0%,
+    transparent 70%
+  );
+  animation: reactorBreath 4s ease-in-out infinite;
+}
+
+#world-reactor .layer-reactor-plasma {
+  opacity: 0.6;
+  transform: scale(0.7);
+  bottom: -10%;
+  top: auto;
+  height: 70%;
+  left: 50%;
+  width: 60%;
+  transform: translateX(-50%) scale(1);
+}
+
+@keyframes reactorBreath {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.04); }
+}
+
+/* ══════════════════════════════
+   WORLD: SIGNALS
+   Section: Horizon Scan
+   Palette: electric blue + cyan data streams
+   ══════════════════════════════ */
+#world-signals {
+  background: radial-gradient(
+    ellipse 100% 70% at 50% 50%,
+    rgba(0, 80, 160, 0.12) 0%,
+    rgba(0, 20, 60, 0.06) 50%,
+    transparent 100%
+  ),
+  linear-gradient(180deg, #00060f 0%, #010208 60%, #020310 100%);
+}
+
+#world-signals .layer-signals-grid {
+  opacity: 0.4;
+}
+
+#world-signals .layer-signals-streams {
+  opacity: 0.25;
+  animation: streamDrift 20s linear infinite;
+}
+
+#world-signals .layer-signals-glow {
+  background: radial-gradient(
+    ellipse 80% 50% at 30% 40%,
+    rgba(0, 212, 255, 0.08) 0%,
+    transparent 60%
+  ),
+  radial-gradient(
+    ellipse 60% 40% at 70% 60%,
+    rgba(0, 100, 255, 0.06) 0%,
+    transparent 60%
+  );
+  animation: signalPulse 6s ease-in-out infinite;
+}
+
+@keyframes streamDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 0 100vh; }
+}
+
+@keyframes signalPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* ══════════════════════════════
+   WORLD: CITYSCAPE
+   Section: Scenarios / 2×2 Matrix
+   Palette: neon purple + green grit
+   ══════════════════════════════ */
+#world-cityscape {
+  background: linear-gradient(
+    180deg,
+    #020104 0%,
+    #050210 40%,
+    #040116 70%,
+    #0a0208 100%
+  );
+}
+
+#world-cityscape .layer-city-back {
+  opacity: 0.7;
+  transform: translateY(0);
+}
+
+#world-cityscape .layer-city-mid {
+  opacity: 0.85;
+}
+
+#world-cityscape .layer-city-front {
+  opacity: 1;
+}
+
+#world-cityscape .layer-city-fog {
+  background: linear-gradient(
+    0deg,
+    rgba(140, 0, 255, 0.06) 0%,
+    rgba(60, 0, 120, 0.04) 30%,
+    transparent 60%
+  );
+  animation: fogDrift 12s ease-in-out infinite;
+}
+
+#world-cityscape .layer-city-horizon {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(
+    0deg,
+    rgba(200, 0, 255, 0.04) 0%,
+    rgba(255, 40, 0, 0.02) 40%,
+    transparent 100%
+  );
+}
+
+@keyframes fogDrift {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(1.5%); }
+}
+
+/* ══════════════════════════════
+   WORLD: FUSION
+   Section: Preferred Future
+   Palette: teal + electric aqua bloom
+   ══════════════════════════════ */
+#world-fusion {
+  background: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    rgba(0, 200, 180, 0.06) 0%,
+    rgba(0, 80, 120, 0.04) 40%,
+    transparent 70%
+  ),
+  linear-gradient(180deg, #00070a 0%, #000a08 50%, #001410 100%);
+}
+
+#world-fusion .layer-fusion-plasma {
+  opacity: 0.7;
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate(-50%, -50%);
+}
+
+#world-fusion .layer-fusion-glow {
+  background: radial-gradient(
+    ellipse 70% 70% at 50% 50%,
+    rgba(0, 255, 220, 0.07) 0%,
+    rgba(0, 180, 255, 0.04) 40%,
+    transparent 70%
+  );
+  animation: fusionPulse 5s ease-in-out infinite;
+}
+
+#world-fusion .layer-fusion-rings {
+  opacity: 0.15;
+  animation: fusionRotate 20s linear infinite;
+}
+
+@keyframes fusionPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.06); }
+}
+
+@keyframes fusionRotate {
+  from { transform: rotate(0deg) scale(1); }
+  to   { transform: rotate(360deg) scale(1); }
+}
+
+/* ══════════════════════════════
+   WORLD: COMMAND
+   Section: Strategic Pathway
+   Palette: amber + tactical gold
+   ══════════════════════════════ */
+#world-command {
+  background: radial-gradient(
+    ellipse 100% 60% at 50% 0%,
+    rgba(200, 140, 0, 0.08) 0%,
+    rgba(100, 60, 0, 0.04) 40%,
+    transparent 70%
+  ),
+  linear-gradient(180deg, #030200 0%, #050400 50%, #040300 100%);
+}
+
+#world-command .layer-command-grid {
+  opacity: 0.35;
+}
+
+#world-command .layer-command-glow {
+  background: radial-gradient(
+    ellipse 80% 40% at 50% 10%,
+    rgba(255, 200, 0, 0.06) 0%,
+    transparent 60%
+  );
+  animation: commandPulse 4s ease-in-out infinite;
+}
+
+@keyframes commandPulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ══════════════════════════════
+   VIGNETTE OVERLAY (all worlds)
+   ══════════════════════════════ */
+.world-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-world) + 5);
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* ══════════════════════════════
+   NOISE TEXTURE OVERLAY
+   ══════════════════════════════ */
+.world-noise {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-world) + 6);
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ══════════════════════════════
+   SCANLINE OVERLAY
+   ══════════════════════════════ */
+.world-scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-world) + 7);
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}

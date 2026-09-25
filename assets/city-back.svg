@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <!-- Atmospheric shimmer filter -->
+    <filter id="shimmer" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.002" numOctaves="3" seed="2">
+        <animate attributeName="baseFrequency" values="0.008 0.002;0.009 0.0025;0.008 0.002" dur="8s" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="glow-soft">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Sky gradient -->
+    <linearGradient id="sky-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#010108"/>
+      <stop offset="60%"  stop-color="#040218"/>
+      <stop offset="100%" stop-color="#0a0424"/>
+    </linearGradient>
+    <!-- Fusion horizon glow -->
+    <radialGradient id="horizon-glow" cx="50%" cy="100%" r="60%">
+      <stop offset="0%"   stop-color="#8800ff" stop-opacity="0.25"/>
+      <stop offset="40%"  stop-color="#4400aa" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Building glow -->
+    <filter id="bldg-glow">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1920" height="600" fill="url(#sky-bg)"/>
+  <rect width="1920" height="600" fill="url(#horizon-glow)"/>
+
+  <!-- Stars -->
+  <g opacity="0.6">
+    <circle cx="120"  cy="40"  r="0.8" fill="#ffffff" opacity="0.7"/>
+    <circle cx="280"  cy="25"  r="0.6" fill="#aaddff" opacity="0.5"/>
+    <circle cx="450"  cy="55"  r="1"   fill="#ffffff" opacity="0.8"/>
+    <circle cx="650"  cy="18"  r="0.7" fill="#ffffff" opacity="0.6"/>
+    <circle cx="820"  cy="45"  r="0.9" fill="#ddeeff" opacity="0.7"/>
+    <circle cx="1000" cy="30"  r="0.6" fill="#ffffff" opacity="0.5"/>
+    <circle cx="1180" cy="60"  r="1.1" fill="#ffffff" opacity="0.9"/>
+    <circle cx="1350" cy="22"  r="0.7" fill="#aaddff" opacity="0.6"/>
+    <circle cx="1520" cy="48"  r="0.8" fill="#ffffff" opacity="0.7"/>
+    <circle cx="1700" cy="35"  r="0.6" fill="#ffffff" opacity="0.5"/>
+    <circle cx="1850" cy="55"  r="1"   fill="#ddeeff" opacity="0.8"/>
+    <circle cx="340"  cy="80"  r="0.5" fill="#ffffff" opacity="0.4"/>
+    <circle cx="900"  cy="70"  r="0.6" fill="#ffffff" opacity="0.5"/>
+    <circle cx="1400" cy="90"  r="0.5" fill="#ffffff" opacity="0.4"/>
+  </g>
+
+  <!-- Distant skyline — very soft, blurred buildings -->
+  <g filter="url(#shimmer)" opacity="0.55">
+    <!-- Far towers cluster left -->
+    <rect x="80"   y="320" width="14"  height="180" fill="#150825"/>
+    <rect x="100"  y="290" width="20"  height="210" fill="#1a0a2e"/>
+    <rect x="126"  y="310" width="12"  height="190" fill="#120620"/>
+    <rect x="145"  y="270" width="28"  height="230" fill="#1e0c35"/>
+    <rect x="178"  y="300" width="16"  height="200" fill="#160820"/>
+    <rect x="200"  y="255" width="36"  height="245" fill="#220e3a"/>
+    <rect x="240"  y="280" width="22"  height="220" fill="#180a2c"/>
+
+    <!-- Antenna spires -->
+    <line x1="210" y1="255" x2="210" y2="225" stroke="#8800ff" stroke-width="1" opacity="0.3"/>
+    <line x1="158" y1="270" x2="158" y2="245" stroke="#6600cc" stroke-width="0.8" opacity="0.25"/>
+
+    <!-- Mid-left cluster -->
+    <rect x="380"  y="305" width="18"  height="195" fill="#140720"/>
+    <rect x="404"  y="275" width="32"  height="225" fill="#1e0d34"/>
+    <rect x="440"  y="295" width="20"  height="205" fill="#160828"/>
+    <rect x="465"  y="250" width="44"  height="250" fill="#250f3e"/>
+    <rect x="514"  y="285" width="24"  height="215" fill="#1a0c30"/>
+    <rect x="543"  y="260" width="38"  height="240" fill="#21103c"/>
+
+    <!-- Center towers -->
+    <rect x="720"  y="240" width="50"  height="260" fill="#2a1245"/>
+    <rect x="776"  y="270" width="30"  height="230" fill="#1e0e38"/>
+    <rect x="812"  y="245" width="42"  height="255" fill="#280f42"/>
+    <rect x="860"  y="260" width="28"  height="240" fill="#1c0c35"/>
+    <rect x="893"  y="225" width="58"  height="275" fill="#300e4a"/>
+    <rect x="956"  y="255" width="36"  height="245" fill="#220d3e"/>
+
+    <!-- Antenna spires center -->
+    <line x1="920" y1="225" x2="920" y2="190" stroke="#cc00ff" stroke-width="1.2" opacity="0.4"/>
+    <circle cx="920" cy="188" r="2" fill="#cc00ff" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Right cluster -->
+    <rect x="1200" y="295" width="22"  height="205" fill="#160828"/>
+    <rect x="1228" y="260" width="40"  height="240" fill="#220e3c"/>
+    <rect x="1274" y="280" width="26"  height="220" fill="#1a0a30"/>
+    <rect x="1305" y="250" width="48"  height="250" fill="#280f42"/>
+    <rect x="1358" y="270" width="32"  height="230" fill="#1e0d36"/>
+    <rect x="1394" y="235" width="52"  height="265" fill="#2c1145"/>
+
+    <!-- Far right -->
+    <rect x="1580" y="300" width="20"  height="200" fill="#150720"/>
+    <rect x="1606" y="270" width="34"  height="230" fill="#1e0c34"/>
+    <rect x="1645" y="288" width="24"  height="212" fill="#170930"/>
+    <rect x="1675" y="252" width="46"  height="248" fill="#260e3e"/>
+    <rect x="1726" y="278" width="28"  height="222" fill="#1c0b32"/>
+    <rect x="1758" y="260" width="38"  height="240" fill="#200d38"/>
+    <rect x="1800" y="285" width="22"  height="215" fill="#160828"/>
+    <rect x="1826" y="245" width="50"  height="255" fill="#280f42"/>
+  </g>
+
+  <!-- Soft horizon atmospheric glow line -->
+  <rect x="0" y="490" width="1920" height="2" fill="url(#horizon-glow)" opacity="0.3">
+    <animate attributeName="opacity" values="0.2;0.45;0.2" dur="6s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Ground fog -->
+  <rect x="0" y="500" width="1920" height="100" fill="url(#sky-bg)" opacity="0.7"/>
+</svg>

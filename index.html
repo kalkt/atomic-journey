@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atomic Journey — Global Energy Futures: Nuclear 2050</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+  <!-- CSS Modules -->
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/hud.css"/>
+  <link rel="stylesheet" href="css/worlds.css"/>
+  <link rel="stylesheet" href="css/scrollytelling.css"/>
+
+  <style>
+    /* Scroll progress bar */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--neon-current);
+      box-shadow: 0 0 8px var(--neon-current);
+      z-index: calc(var(--z-hud) + 1);
+      transition: background 0.6s ease, box-shadow 0.6s ease;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SCROLL PROGRESS
+     ══════════════════════════════════════════ -->
+<div id="scroll-progress"></div>
+
+<!-- ══════════════════════════════════════════
+     COVER SCREEN
+     ══════════════════════════════════════════ -->
+<div id="cover" aria-hidden="true">
+  <div id="cover-title">ATOMIC JOURNEY</div>
+  <div id="cover-sub">Global Energy Futures · Nuclear 2050 · Strategic Foresight Portfolio</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PARTICLE CANVAS
+     ══════════════════════════════════════════ -->
+<canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+<!-- ══════════════════════════════════════════
+     THREE.JS CONTAINER
+     ══════════════════════════════════════════ -->
+<div id="three-container" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════
+     WORLD BACKGROUNDS
+     ══════════════════════════════════════════ -->
+
+<!-- World: Reactor -->
+<div id="world-reactor" class="world active" aria-hidden="true">
+  <div class="parallax-layer layer-reactor-wall">
+    <img src="assets/reactor-wall.svg" alt=""/>
+  </div>
+  <div class="parallax-layer layer-reactor-plasma">
+    <img src="assets/plasma-arc.svg" alt=""/>
+  </div>
+  <div class="parallax-layer layer-reactor-glow"></div>
+</div>
+
+<!-- World: Signals -->
+<div id="world-signals" class="world" aria-hidden="true">
+  <div class="parallax-layer layer-signals-grid">
+    <img src="assets/hud-grid.svg" alt=""/>
+  </div>
+  <div class="parallax-layer layer-signals-glow"></div>
+  <div class="parallax-layer layer-signals-streams"></div>
+</div>
+
+<!-- World: Cityscape -->
+<div id="world-cityscape" class="world" aria-hidden="true">
+  <div class="parallax-layer layer-city-back">
+    <img src="assets/city-back.svg" alt=""/>
+  </div>
+  <div class="parallax-layer layer-city-mid">
+    <img src="assets/city-mid.svg" alt=""/>
+  </div>
+  <div class="parallax-layer layer-city-front">
+    <img src="assets/city-front.svg" alt=""/>
+  </div>
+  <div class="parallax-layer layer-city-fog"></div>
+  <div class="parallax-layer layer-city-horizon"></div>
+</div>
+
+<!-- World: Fusion -->
+<div id="world-fusion" class="world" aria-hidden="true">
+  <div class="parallax-layer layer-fusion-plasma">
+    <img src="assets/plasma-arc.svg" alt=""/>
+  </div>
+  <div class="parallax-layer layer-fusion-glow"></div>
+  <div class="parallax-layer layer-fusion-rings">
+    <img src="assets/plasma-arc.svg" alt="" style="transform:scale(1.6) rotate(45deg);opacity:0.3"/>
+  </div>
+</div>
+
+<!-- World: Command -->
+<div id="world-command" class="world" aria-hidden="true">
+  <div class="parallax-layer layer-command-grid">
+    <img src="assets/hud-grid.svg" alt="" style="filter:hue-rotate(50deg) saturate(0.7)"/>
+  </div>
+  <div class="parallax-layer layer-command-glow"></div>
+</div>
+
+<!-- Global overlays -->
+<div class="world-vignette"  aria-hidden="true"></div>
+<div class="world-noise"     aria-hidden="true"></div>
+<div class="world-scanlines" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════
+     HUD OVERLAY
+     ══════════════════════════════════════════ -->
+<div id="hud" aria-hidden="true" role="presentation">
+
+  <!-- Corners -->
+  <div class="hud-corner hud-corner--tl"><div class="hud-corner-dot"></div></div>
+  <div class="hud-corner hud-corner--tr"><div class="hud-corner-dot"></div></div>
+  <div class="hud-corner hud-corner--bl"><div class="hud-corner-dot"></div></div>
+  <div class="hud-corner hud-corner--br"><div class="hud-corner-dot"></div></div>
+
+  <!-- Section indicator (top center) -->
+  <div id="hud-section-indicator">
+    <div id="hud-section-name">REACTOR CORE</div>
+    <div id="hud-section-bar">
+      <div class="hud-section-pip active"></div>
+      <div class="hud-section-pip"></div>
+      <div class="hud-section-pip"></div>
+      <div class="hud-section-pip"></div>
+      <div class="hud-section-pip"></div>
+      <div class="hud-section-pip"></div>
+    </div>
+  </div>
+
+  <!-- Atom display (top left) -->
+  <div id="hud-orbital-ring"></div>
+  <div id="hud-orbital-ring-2"></div>
+  <div id="hud-atom">
+    <div id="hud-atom-symbol">U</div>
+    <div id="hud-atom-name">Uranium</div>
+    <div id="hud-atom-number">Z = 92</div>
+  </div>
+
+  <!-- World label (top right) -->
+  <div id="hud-world-label">
+    <div id="hud-world-name">REACTOR CORE</div>
+    <div id="hud-world-speed">SPEED: SLOW</div>
+  </div>
+
+  <!-- Scan line -->
+  <div id="hud-scanline"></div>
+
+  <!-- Status bar (bottom center) -->
+  <div id="hud-status-bar">
+    <div class="hud-status-item"><span class="dot"></span>FISSION</div>
+    <div class="hud-status-item"><span class="dot"></span>FUSION</div>
+    <div class="hud-status-item"><span class="dot"></span>SMR</div>
+    <div class="hud-status-item"><span class="dot"></span>HORIZON 2050</div>
+  </div>
+
+  <!-- Data readout (bottom left) -->
+  <div id="hud-readout">
+    <div class="hud-readout-line"><span class="label">SECT</span><span class="value" id="hud-readout-section">01</span></div>
+    <div class="hud-readout-line"><span class="label">SCRL</span><span class="value" id="hud-readout-scroll">000</span></div>
+    <div class="hud-readout-line"><span class="label">YEAR</span><span class="value">2050</span></div>
+  </div>
+
+  <!-- Edge ticks -->
+  <div class="hud-tick hud-tick--left"   style="top:25%"></div>
+  <div class="hud-tick hud-tick--left"   style="top:50%"></div>
+  <div class="hud-tick hud-tick--left"   style="top:75%"></div>
+  <div class="hud-tick hud-tick--right"  style="top:25%"></div>
+  <div class="hud-tick hud-tick--right"  style="top:50%"></div>
+  <div class="hud-tick hud-tick--right"  style="top:75%"></div>
+  <div class="hud-tick hud-tick--top"    style="left:25%"></div>
+  <div class="hud-tick hud-tick--top"    style="left:75%"></div>
+  <div class="hud-tick hud-tick--bottom" style="left:25%"></div>
+  <div class="hud-tick hud-tick--bottom" style="left:75%"></div>
+
+  <!-- World transition flash -->
+  <div id="hud-world-flash"></div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     ATOM TRANSITION OVERLAY
+     ══════════════════════════════════════════ -->
+<div id="atom-transition" aria-hidden="true">
+  <div id="atom-transition-symbol">U</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCROLLABLE CONTENT
+     ══════════════════════════════════════════ -->
+<main id="scroll-container" role="main">
+
+  <!-- ─────────────────────────────────────────
+       HERO SECTION
+       ───────────────────────────────────────── -->
+  <section id="section-hero" data-world="reactor">
+    <div class="hero-eyebrow">Strategic Foresight Portfolio · Thunderbird · Spring 2026</div>
+    <h1 class="hero-title">
+      <span class="accent">Nuclear</span><br/>Energy Futures
+    </h1>
+    <p class="hero-subtitle">
+      A cinematic foresight brief on the trajectory of fission and fusion to 2050 —
+      from horizon signals to preferred futures and strategic pathways.
+    </p>
+    <div class="hero-team">
+      Natalee Ward &nbsp;·&nbsp; Jacky Chen &nbsp;·&nbsp; Kartik Nariya &nbsp;·&nbsp;
+      Makaiah Gorham &nbsp;·&nbsp; Sam Levy &nbsp;·&nbsp; Valorie Cavazos &nbsp;·&nbsp; Tendai Govo
+    </div>
+    <div class="hero-advisor">
+      Faculty Advisor &nbsp;·&nbsp; Dr. Sean Leahy
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll to begin</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       SECTION 1: EXECUTIVE SUMMARY
+       World: reactor · Atom: U · Speed: slow
+       ───────────────────────────────────────── -->
+  <section id="section-executive" class="story-section story-section--tall" data-world="reactor">
+    <div class="section-inner">
+
+      <div class="section-header reveal-el explode-reveal">
+        <span class="section-number">01 / EXECUTIVE SUMMARY</span>
+        <h2>The Return That<br/>Finally Means Something</h2>
+        <p>Authored by Kartik Nariya</p>
+      </div>
+
+      <p class="exec-lede reveal-el line-wipe" data-delay="150" data-wipe-delay="0.3">
+        Nuclear energy has been "about to come back" for so long that the phrase stopped meaning
+        anything. This time, there are specific signals worth paying attention to.
+      </p>
+
+      <div class="stagger-container">
+        <p class="stagger-child">
+          Four stand out from the horizon scan. Advanced reactor designs are being engineered to
+          convert spent fuel into industrial materials and medical isotopes rather than bury it —
+          reframing the waste problem that has defined nuclear's public reputation for decades.
+          A new laser enrichment facility in Kentucky signals that domestic fuel security is becoming
+          a serious policy priority, not just a talking point. Hyperscale data centers are now
+          building their own gigawatt-scale generation to skip grid interconnection queues entirely,
+          which is quietly dissolving the line between energy consumer and producer. And a startup
+          called Deep Fission has begun drilling pilot sites for reactors placed a mile underground,
+          opening siting options that simply didn't exist before.
+        </p>
+
+        <p class="stagger-child">
+          The scenario matrix was built around two questions that will determine where nuclear
+          actually lands by 2050: how fast does the technology mature, and does control of energy
+          infrastructure end up concentrated or distributed? Those axes produce four scenarios:
+          <strong>Static Grid</strong> (stalled tech, fossil-dominated),
+          <strong>Powerhouse Era</strong> (breakthroughs, but controlled by a handful of major actors),
+          <strong>Fragmented Patchwork</strong> (no breakthroughs, inequality deepens), and
+          <strong>Decentralized Boom</strong> (breakthroughs enabling community-scale energy systems).
+        </p>
+
+        <p class="stagger-child">
+          The preferred future sits between Powerhouse Era and Decentralized Boom. Advanced fission,
+          bridging to fusion, provides the reliable baseload that variable renewables need to work at
+          scale. The goal is not to concentrate that capacity in a few state actors but to make it
+          broadly accessible — including to the regions left out of every previous energy transition.
+        </p>
+
+        <p class="stagger-child">
+          Three things have to move in parallel. Licensing frameworks need to stop treating new
+          reactor designs like they're 1970s light-water reactors. Investment has to reach the full
+          supply chain, including circular fuel processing. And allied governments need to coordinate
+          on enrichment and fuel sharing before geopolitical friction makes it harder.
+        </p>
+      </div>
+
+      <div class="section-divider reveal-line"></div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       SECTION 2: HORIZON SCAN
+       World: signals · Atom: Th · Speed: medium
+       ───────────────────────────────────────── -->
+  <section id="section-signals" class="story-section story-section--xl" data-world="signals">
+    <div class="section-inner">
+
+      <div class="section-header reveal-el explode-reveal">
+        <span class="section-number">02 / HORIZON SCAN</span>
+        <h2>Signals of Change<br/>in the Nuclear Sector</h2>
+        <p>Authored by Sam Levy</p>
+      </div>
+
+      <p class="scenarios-intro reveal-el" data-delay="100">
+        Four signals — specific, evidence-based indicators that something is shifting —
+        classified by STEEP category and Three Horizons framework.
+      </p>
+
+      <!-- Signal 1 -->
+      <div class="signal-card card-3d zoom-reveal stagger-container" data-zoom-delay="0.05">
+        <h3 class="stagger-child glow-signals">Nuclear Waste as a Value Stream</h3>
+        <p class="stagger-child">
+          Advanced reactor developers are promoting molten salt designs that incorporate
+          waste-processing systems, such as the CELEX process, to convert nuclear waste into usable
+          industrial products like isotopes and rare earth elements. This reframes the nuclear fuel
+          cycle from a disposal-centric challenge to a circular, materials-recovery platform,
+          potentially lowering economic barriers to nuclear expansion.
+        </p>
+        <p class="stagger-child">
+          The potential for this circular model extends far beyond simple economic optimization, as
+          it reshapes the broader legitimacy of nuclear power in the public eye. By transforming
+          long-lived radioactive waste into a resource, developers can effectively mitigate
+          "not-in-my-backyard" (NIMBY) opposition that often stalls repository projects by reducing
+          the volume and radiotoxicity of material requiring permanent geological storage. Furthermore,
+          this paradigm shift positions nuclear firms as integral partners in the global supply chain
+          for critical minerals and medical isotopes, thereby aligning their growth with broader
+          societal goals like industrial decarbonization and resilient healthcare infrastructure.
+        </p>
+        <div class="signal-meta stagger-child">
+          <span class="tag tag-steep">STEEP: T</span>
+          <span class="tag tag-h2">Three Horizons: H2</span>
+        </div>
+      </div>
+
+      <!-- Signal 2 -->
+      <div class="signal-card card-3d zoom-reveal stagger-container" data-zoom-delay="0.1">
+        <h3 class="stagger-child glow-signals">Laser Enrichment as Strategic Infrastructure</h3>
+        <p class="stagger-child">
+          The announcement of the Paducah Laser Enrichment Facility in Kentucky highlights a shift
+          toward prioritizing domestic or allied control of uranium enrichment and conversion
+          processes to secure long-term fuel supply chains. This signal demonstrates a transition
+          where fuel-processing capacity is becoming a central component of national geopolitical
+          and energy security strategies.
+        </p>
+        <p class="stagger-child">
+          This strategic emphasis on domestic enrichment also functions as a necessary safeguard
+          against the supply chain vulnerabilities inherent in relying on rival-controlled fuel
+          markets. By anchoring these capabilities within local manufacturing regions, governments
+          can leverage nuclear infrastructure to foster significant regional job growth while
+          simultaneously building the reliable, scalable fuel supply required to power the next
+          generation of advanced reactor fleets.
+        </p>
+        <div class="signal-meta stagger-child">
+          <span class="tag tag-steep">STEEP: P</span>
+          <span class="tag tag-h2">Three Horizons: H2</span>
+        </div>
+      </div>
+
+      <!-- Signal 3 -->
+      <div class="signal-card card-3d zoom-reveal stagger-container" data-zoom-delay="0.15">
+        <h3 class="stagger-child glow-signals">Data-Center Developers Bypassing the Grid</h3>
+        <p class="stagger-child">
+          Hyperscale computing and AI firms are increasingly moving toward developing "captive
+          generation" on-site — such as the 1.5 gigawatt power plant deployment in Utah — to avoid
+          the slow timelines and bottlenecks of traditional public-grid connections. This emergence
+          erodes the historical boundary between power consumers and producers, potentially
+          accelerating deployment but risking the fragmentation of grid planning.
+        </p>
+        <p class="stagger-child">
+          As these hyperscalers solidify their role as independent power producers, the traditional
+          utility model faces an urgent competitive challenge that threatens to redirect investment
+          capital away from public grid modernization. This pivot could lead to a two-tiered energy
+          landscape where well-funded data hubs operate with high-reliability, dedicated nuclear or
+          gas baseloads, while the public grid is left to manage rising costs and diminishing utility
+          support. Consequently, regulators must now grapple with the risk of systemic inefficiency,
+          as private "grid-light" strategies may complicate the long-term coordination required to
+          ensure universal energy stability and decarbonization.
+        </p>
+        <div class="signal-meta stagger-child">
+          <span class="tag tag-steep">STEEP: E</span>
+          <span class="tag tag-h2">Three Horizons: H2</span>
+        </div>
+      </div>
+
+      <!-- Signal 4 -->
+      <div class="signal-card card-3d zoom-reveal stagger-container" data-zoom-delay="0.2">
+        <h3 class="stagger-child glow-signals">Underground Reactor Field Testing</h3>
+        <p class="stagger-child">
+          Deep Fission has commenced drilling the first data-acquisition well for a pilot project
+          that places small modular pressurized-water reactors roughly one mile underground. This
+          signals a fundamental shift in thinking about where reactors are physically sited,
+          potentially redefining safety and security assumptions while opening new deployment
+          possibilities for remote industrial applications.
+        </p>
+        <p class="stagger-child">
+          Ultimately, this trend signals a future where infrastructure deployment is dictated by the
+          speed of digital innovation rather than the pace of bureaucratic public planning. As a
+          result, the "one grid, one power model" may increasingly give way to specialized,
+          fragmented energy architectures designed to serve specific high-demand clusters.
+        </p>
+        <div class="signal-meta stagger-child">
+          <span class="tag tag-steep">STEEP: T</span>
+          <span class="tag tag-h2">Three Horizons: H3</span>
+        </div>
+      </div>
+
+      <div class="section-divider reveal-line"></div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       SECTION 3: FUTURES MAPPING VISUAL
+       World: cityscape · Atom: Pu
+       ───────────────────────────────────────── -->
+  <section id="section-futures-map" class="story-section story-section--tall" data-world="cityscape">
+    <div class="section-inner">
+
+      <div class="section-header reveal-el explode-reveal">
+        <span class="section-number">03 / FUTURES MAPPING VISUAL</span>
+        <h2>Futures Triangle</h2>
+        <p>Authored by Makaiah Gorham</p>
+      </div>
+
+      <!-- Futures Triangle Visual (object tag enables SVG hover interactivity) -->
+      <div class="visual-container zoom-reveal" data-zoom-delay="0.1">
+        <object type="image/svg+xml" data="assets/futures-triangle.svg"
+          title="Futures Triangle — Nuclear Energy Sector"
+          style="width:100%;height:auto;display:block;min-height:420px;">
+        </object>
+      </div>
+
+      <!-- Three Pole Narratives -->
+      <div class="triangle-poles stagger-container">
+
+        <div class="triangle-pole triangle-pole--history card-3d stagger-child">
+          <h4>⬤ Weight of History</h4>
+          <p>
+            The nuclear sector carries an unusually heavy legacy burden. The accidents at Chernobyl
+            (1986) and Fukushima (2011) permanently restructured public trust and produced waves of
+            legislative phase-outs across Europe and beyond. Regulatory frameworks — still built
+            largely around 1970s light-water reactor assumptions — impose cost structures that make
+            new builds economically uncompetitive even when the underlying physics is sound.
+            High-profile construction cost overruns (Vogtle, Hinkley Point C) reinforce the
+            perception that nuclear is inherently expensive, even though these reflect project
+            management and regulatory risk rather than fundamental technology limits. Radioactive
+            waste remains politically unresolved in most countries. These path dependencies are real
+            constraints, not merely perceptions.
+          </p>
+        </div>
+
+        <div class="triangle-pole triangle-pole--present card-3d stagger-child">
+          <h4>⬤ Push of the Present</h4>
+          <p>
+            Several concurrent disruptions are pushing energy systems toward nuclear more forcefully
+            than at any point since the 1970s. AI data centers — representing a step-change in
+            electricity demand — are actively contracting for nuclear capacity (Microsoft–Three Mile
+            Island, Google–Kairos). Geopolitical supply shocks from Russia's 2022 invasion of Ukraine
+            prompted European states to reverse planned phase-outs and accelerate new builds.
+            Grid interconnection queues in the United States now extend beyond a decade for new
+            generation, forcing hyperscalers like Crusoe Energy to develop gigawatt-scale captive
+            generation. Climate decarbonization targets that seemed achievable with solar and wind
+            are increasingly constrained by land use, transmission costs, and the intermittency
+            problem — all of which nuclear is uniquely positioned to address.
+          </p>
+        </div>
+
+        <div class="triangle-pole triangle-pole--future card-3d stagger-child">
+          <h4>⬤ Pull of the Future</h4>
+          <p>
+            Nuclear energy's aspirational pull rests on physics advantages that no other zero-carbon
+            technology can replicate. Energy density: a single uranium fuel pellet the size of a
+            fingertip contains as much energy as 17,000 cubic feet of natural gas. Land efficiency:
+            nuclear requires roughly 100× less land than equivalent solar capacity, an advantage
+            that will compound as arable and ecologically sensitive land becomes contested. And on
+            the long horizon, fusion — both magnetic confinement (ITER, Commonwealth Fusion Systems)
+            and inertial confinement approaches — represents a genuine step-change if commercial
+            timelines compress toward the 2040s. SMRs and microreactors are pulling forward a
+            deployment model that can serve remote industrial sites, island grids, and developing
+            economies that large-scale nuclear could never reach.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="stagger-container">
+        <p class="stagger-child scenarios-intro">
+          The triangle reveals a productive structural tension: the sector's past is its biggest
+          drag, but its physics is its most compelling advantage. The tension between these poles
+          is not static — the push of the present is actively eroding the weight of history in
+          ways that were not true five years ago. This is what makes 2025–2035 a decisive window
+          for strategic intervention.
+        </p>
+      </div>
+
+      <div class="section-divider reveal-line"></div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       SECTION 4: 2×2 SCENARIO MATRIX
+       World: cityscape · Atom: Pu · Speed: fast
+       ───────────────────────────────────────── -->
+  <section id="section-scenarios" class="story-section story-section--xl" data-world="cityscape">
+    <div class="section-inner">
+
+      <div class="section-header reveal-el explode-reveal">
+        <span class="section-number">04 / 2×2 SCENARIO MATRIX</span>
+        <h2>Four Futures for<br/>Nuclear to 2050</h2>
+        <p>Authored by Natalee Ward &amp; Valorie Cavazos</p>
+      </div>
+
+      <!-- Part 1: Critical Uncertainties -->
+      <h3 class="reveal-el" style="color: var(--neon-city); margin-bottom:1em;">
+        Part 1 — Critical Uncertainties
+      </h3>
+      <div class="stagger-container">
+        <p class="stagger-child">
+          This scenario matrix is structured around two critical uncertainties that will shape
+          global energy systems over the next 20 to 30 years. The first is the
+          <strong>rate of technological advancement in nuclear energy systems</strong>, which ranges
+          from accelerated breakthrough to constrained development. The second is the
+          <strong>governance structure of energy systems</strong>, which ranges from centralized to
+          distributed architectures.
+        </p>
+        <p class="stagger-child">
+          A critical uncertainty is defined as a driver that is both highly impactful and genuinely
+          unpredictable in its outcome. The trajectory of nuclear energy technology clearly meets
+          this definition. Signals from the horizon scan point to this momentum directly — the move
+          toward underground reactor siting by Deep Fission and the commercialization of
+          waste-to-value processes like the CELEX system both suggest that nuclear innovation is
+          expanding beyond conventional reactor design into entirely new deployment and fuel-cycle
+          models. Whether these developments reach commercial scale or stall in regulatory and
+          financing bottlenecks remains genuinely uncertain.
+        </p>
+        <p class="stagger-child">
+          The second uncertainty focuses on how energy systems are structured and governed.
+          Centralized systems are built around large utilities, national grids, and major
+          infrastructure projects. Distributed systems rely on microgrids, local generation, and
+          prosumer networks. Alpha Tech's transportable modular reactor points toward distributed
+          nuclear power. The Paducah enrichment facility and state-level nuclear planning roadmaps
+          point toward centralized control. Whether nuclear scales as a centralized or distributed
+          technology is one of the defining open questions of the coming decades.
+        </p>
+        <p class="stagger-child">
+          These two uncertainties are independent but deeply interconnected in their implications.
+          Technological breakthroughs can support either centralized or distributed systems.
+          Likewise, technological constraints can reinforce legacy centralized systems or lead to
+          fragmented, localized solutions. Together, these axes create four distinct and plausible
+          futures that challenge common assumptions about how the energy transition will unfold.
+        </p>
+      </div>
+
+      <div class="section-divider reveal-line"></div>
+
+      <!-- Part 2: Scenario Matrix Visual -->
+      <h3 class="reveal-el" style="color: var(--neon-city); margin-bottom:1em; margin-top:2em;">
+        Part 2 — Scenario Matrix
+      </h3>
+
+      <!-- Scenario Matrix Visual (object tag enables SVG hover interactivity) -->
+      <div class="visual-container zoom-reveal" data-zoom-delay="0.1">
+        <object type="image/svg+xml" data="assets/scenario-matrix.svg"
+          title="2×2 Scenario Matrix — Technology vs Governance Axes"
+          style="width:100%;height:auto;display:block;min-height:420px;">
+        </object>
+      </div>
+
+      <!-- Part 3: Scenario Narratives -->
+      <h3 class="reveal-el" style="color: var(--neon-city); margin-bottom:1.5em; margin-top:3em;">
+        Part 3 — Scenario Narratives · 2050
+      </h3>
+
+      <div class="scenario-matrix-grid">
+
+        <!-- Q1: Static Grid -->
+        <div class="scenario-card card-3d zoom-reveal" data-quadrant="Q1" data-zoom-delay="0">
+          <span class="scenario-label">Quadrant 1 — Constrained Tech · Centralized</span>
+          <h3 style="color:#ff4466; margin-bottom:0.8em;">Static Grid</h3>
+          <p>
+            It is 2048, and the global energy system still looks surprisingly familiar. Centralized
+            power plants dominate electricity generation, and most countries remain dependent on
+            large-scale fossil fuel infrastructure. Coal and natural gas continue to supply over
+            65 percent of global electricity, largely because technological progress in clean energy
+            never scaled as expected.
+          </p>
+          <p>
+            Breakthroughs in battery storage, advanced nuclear, and grid modernization were slower
+            than anticipated. Many renewable projects remained stuck in interconnection queues for
+            years, and transmission expansion failed to keep pace with demand growth. As a result,
+            renewables never moved beyond a supplementary role. Rooftop solar adoption reached
+            roughly 8 percent of households globally, but it was not enough to shift the overall
+            system.
+          </p>
+          <p>
+            AI data centers, electrified transport, and cooling demand in warming climates placed
+            constant pressure on aging infrastructure. Grid congestion became a defining feature.
+            In major cities, rolling blackouts occur during peak summer months. In the United States,
+            industrial users are capped during peak hours, while residential consumers face tiered
+            pricing that prioritizes wealthier communities. The system is stable in structure but
+            deeply unequal in outcomes.
+          </p>
+        </div>
+
+        <!-- Q2: Powerhouse Era -->
+        <div class="scenario-card card-3d zoom-reveal" data-quadrant="Q2" data-zoom-delay="0.12">
+          <span class="scenario-label">Quadrant 2 — Breakthrough Tech · Centralized</span>
+          <h3 style="color:var(--neon-command); margin-bottom:0.8em;">Powerhouse Era</h3>
+          <p>
+            By 2048, the world runs on clean electricity, but control over that system is highly
+            concentrated. Rapid technological breakthroughs in energy storage, advanced nuclear,
+            and grid infrastructure have transformed the global energy landscape. Renewables and
+            clean electricity account for more than 85 percent of global generation.
+          </p>
+          <p>
+            Governments and large corporations led the transition, investing heavily in large-scale
+            infrastructure. In China, a continental supergrid connects vast solar and wind
+            installations to urban and industrial centers. The European Union operates an integrated
+            grid system that coordinates energy flows across member states, while the United States
+            has significantly expanded its transmission backbone to support national electrification.
+          </p>
+          <p>
+            The economics of scale drove this outcome. A small number of governments and corporations
+            control the majority of generation and distribution infrastructure. Smaller nations and
+            developing regions participate primarily as energy importers. While emissions have
+            decreased and energy supply is more stable, the concentration of power raises new
+            questions about equity and access.
+          </p>
+        </div>
+
+        <!-- Q3: Fragmented Patchwork -->
+        <div class="scenario-card card-3d zoom-reveal" data-quadrant="Q3" data-zoom-delay="0.24">
+          <span class="scenario-label">Quadrant 3 — Constrained Tech · Distributed</span>
+          <h3 style="color:#8844ff; margin-bottom:0.8em;">Fragmented Patchwork</h3>
+          <p>
+            In this future, the global energy transition stalled before it could take hold.
+            Technological progress slowed, and international cooperation broke down. What emerged
+            is a fragmented system where energy access and reliability vary dramatically across
+            regions.
+          </p>
+          <p>
+            By 2048, no dominant energy model has emerged. Some communities rely on small-scale
+            solar systems, others depend on diesel generators, and many operate a mix of inconsistent
+            solutions. In Sub-Saharan Africa, urban neighborhoods may have access to microgrids,
+            while adjacent areas rely on fuel-based backup systems that operate only part of the day.
+          </p>
+          <p>
+            Without major technological breakthroughs, clean energy never reached the cost levels
+            needed for universal adoption. Fossil fuels remain in use, not by preference but by
+            necessity. Supply chains for critical minerals have become a major point of conflict.
+            This world is defined by inequality — energy access depends heavily on geography, income,
+            and political stability.
+          </p>
+        </div>
+
+        <!-- Q4: Decentralized Boom -->
+        <div class="scenario-card card-3d zoom-reveal" data-quadrant="Q4" data-zoom-delay="0.36">
+          <span class="scenario-label" style="color:var(--neon-fusion)">Quadrant 4 — Breakthrough Tech · Distributed ★ PREFERRED</span>
+          <h3 style="color:var(--neon-fusion); margin-bottom:0.8em;">Decentralized Boom</h3>
+          <p>
+            In 2048, energy is produced and managed at the local level. Technological breakthroughs
+            made clean energy systems affordable and scalable, and instead of reinforcing centralized
+            infrastructure, they enabled widespread decentralization.
+          </p>
+          <p>
+            Solar panels, small-scale wind systems, and advanced battery storage are now standard
+            features of homes and communities. More than 60 percent of households globally participate
+            in some form of distributed generation. Local microgrids manage energy production and
+            storage, often using AI systems to balance supply and demand in real time.
+          </p>
+          <p>
+            In Kenya, rural electrification accelerated rapidly once decentralized systems became
+            more cost-effective than grid expansion. Community energy cooperatives now manage local
+            grids and trade surplus electricity through regional platforms. This transition has
+            increased resilience — power outages are less widespread because failures are contained
+            within smaller systems. The system is more flexible and responsive, but depends heavily
+            on effective governance at both local and global levels.
+          </p>
+        </div>
+
+      </div><!-- /scenario-matrix-grid -->
+
+      <div class="section-divider reveal-line"></div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       SECTION 5: PREFERRED FUTURE & PATHWAY
+       World: fusion → command · Atom: He / U-235
+       ───────────────────────────────────────── -->
+  <section id="section-preferred" class="story-section story-section--tall" data-world="fusion">
+    <div class="section-inner">
+
+      <div class="section-header reveal-el explode-reveal">
+        <span class="section-number">05 / PREFERRED FUTURE</span>
+        <h2>Nuclear as the<br/>Strategic Backbone</h2>
+        <p>Authored by Tendai Govo</p>
+      </div>
+
+      <!-- Nuclear elements visual -->
+      <div class="visual-container zoom-reveal" data-zoom-delay="0.05" style="max-width:600px; float:right; margin-left:2rem; margin-bottom:1rem;">
+        <img src="assets/nuclear-elements.svg" alt="Nuclear Elements — Isotope Reference" class="atom-float" loading="lazy"/>
+      </div>
+
+      <p class="preferred-hero reveal-el" data-delay="150">
+        Among the four scenarios mapped in this futures matrix, our group identifies a hybrid of
+        the Powerhouse Era and Decentralized Boom as the most desirable future — one in which
+        advanced nuclear energy, specifically fission bridging to fusion, serves as the technological
+        backbone of a just, resilient, and globally coordinated energy system.
+      </p>
+
+      <div style="clear:both"></div>
+
+      <div class="stagger-container">
+        <p class="stagger-child">
+          This preferred future draws on the technological momentum of breakthrough scenarios while
+          deliberately steering governance structures away from the dangerous concentration of power
+          inherent in a purely centralized model. It is a future that is not simply discovered by
+          chance but actively constructed through aligned policy, investment, and international
+          commitment.
+        </p>
+        <p class="stagger-child">
+          Nuclear energy — both advanced fission and the emerging frontier of fusion — occupies a
+          unique position in any credible preferred future. Unlike solar and wind, nuclear provides
+          dispatchable, high-density baseload power that does not fluctuate with weather patterns.
+          In a world of rising electricity demand driven by AI data centers, electrified transport,
+          and industrial decarbonization, this characteristic is not a luxury but a requirement.
+        </p>
+        <p class="stagger-child">
+          Signals identified in the horizon scan reinforce this case. The emergence of underground
+          SMRs, the advance of molten salt designs capable of converting nuclear waste into value
+          streams, and hyperscalers' demand for captive gigawatt-scale generation all point toward
+          nuclear as a near-term commercial reality rather than a speculative promise.
+        </p>
+      </div>
+
+      <div class="section-divider reveal-line"></div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       SECTION 6: STRATEGIC PATHWAY
+       World: command · Atom: U-235 · Speed: medium
+       ───────────────────────────────────────── -->
+  <section id="section-pathway" class="story-section story-section--xl" data-world="command">
+    <div class="section-inner">
+
+      <div class="section-header reveal-el explode-reveal">
+        <span class="section-number">05 · cont / STRATEGIC PATHWAY</span>
+        <h2>Three Moves to<br/>Get There by 2050</h2>
+      </div>
+
+      <div class="pathway-timeline">
+
+        <!-- Pathway 1: Policy Reform -->
+        <div class="pathway-block reveal-left zoom-reveal" data-delay="0" data-zoom-delay="0">
+          <h3>Strategic Pathway: Policy Reform</h3>
+          <p>
+            The most significant barrier to realizing this preferred future is not technological —
+            it is regulatory. Decades of slow, fragmented permitting processes have made nuclear
+            development economically uncompetitive relative to its actual risk profile. In our
+            preferred future, governments adopt streamlined, risk-informed licensing frameworks that
+            treat advanced reactor designs on their merits rather than through the lens of legacy
+            light-water reactor assumptions. The United States' investment in domestic laser
+            enrichment infrastructure, as signaled by the Paducah facility, points toward a new era
+            of nuclear fuel sovereignty that policy must accelerate and protect.
+          </p>
+          <p>
+            Equally important is land-use and siting policy. The development of deep underground
+            SMRs by firms like Deep Fission demonstrates that physical constraints on reactor
+            placement are becoming tractable, opening siting options previously unavailable.
+            Governments should enact enabling legislation that facilitates these novel configurations
+            while updating safety standards to reflect empirical performance data rather than
+            political risk aversion. Public investment in long-duration workforce development
+            pipelines — nuclear engineers, health physicists, and skilled tradespeople — must
+            accompany licensing reform to ensure deployment capacity matches regulatory opportunity.
+          </p>
+        </div>
+
+        <!-- Pathway 2: Technology Investment -->
+        <div class="pathway-block reveal-left zoom-reveal" data-delay="150" data-zoom-delay="0.12">
+          <h3>Strategic Pathway: Technology Investment</h3>
+          <p>
+            Reaching the preferred future requires sustained, patient capital directed at the full
+            nuclear value chain. Public and private actors must co-invest in advanced reactor
+            demonstration projects that move beyond pilot scale toward commercial replication. Fusion
+            programs — including both magnetic confinement and inertial confinement approaches —
+            require increased funding stability to compress development timelines. Critically,
+            investment must extend to the enabling infrastructure: advanced fuel fabrication, waste
+            reprocessing technologies such as the CELEX molten salt process, and grid interconnection
+            systems capable of integrating variable renewables alongside firm nuclear capacity.
+          </p>
+          <p>
+            The circular nuclear fuel cycle represents one of the most strategically undervalued
+            opportunities in this space. By repositioning spent fuel as a feedstock for isotope
+            production and rare earth recovery, nuclear operators can dramatically improve project
+            economics, reduce long-term waste liabilities, and align themselves with the critical
+            mineral supply chains that advanced manufacturing, healthcare, and defense sectors depend
+            on. Technology investment in this area is not peripheral to the nuclear case; it is
+            central to its political and economic sustainability.
+          </p>
+        </div>
+
+        <!-- Pathway 3: International Cooperation -->
+        <div class="pathway-block reveal-left zoom-reveal" data-delay="300" data-zoom-delay="0.24">
+          <h3>Strategic Pathway: International Cooperation</h3>
+          <p>
+            No nation can fully realize this preferred future alone. Advanced nuclear development
+            requires global supply chains for specialized materials, shared standards for reactor
+            safety, and multilateral frameworks for managing proliferation risk. In our preferred
+            future, allied nations coordinate on fuel cycle governance — sharing enrichment capacity
+            and spent fuel management infrastructure across trustworthy partners — to reduce
+            dependence on adversarial suppliers and lower barriers for smaller nations to access
+            civilian nuclear power. This mirrors the logic behind the Paducah laser enrichment
+            signal: energy security is geopolitical security, and nuclear fuel sovereignty must be
+            treated as a shared allied interest.
+          </p>
+          <p>
+            International organizations — including the International Atomic Energy Agency and
+            emerging multilateral bodies — must be empowered and resourced to facilitate technology
+            transfer to developing economies. The risk identified in the Fragmented Patchwork
+            scenario, that energy poverty persists as a function of technological exclusion, is most
+            effectively countered when nuclear knowledge and financing flows to regions that need it
+            most. A preferred future that delivers clean, reliable baseload power to Sub-Saharan
+            Africa, South and Southeast Asia, and Latin America through adapted SMR deployments is
+            not utopian; it is a reachable horizon if international cooperation frameworks are
+            built now.
+          </p>
+        </div>
+
+      </div><!-- /pathway-timeline -->
+
+      <div class="section-divider reveal-line"></div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       SECTION 6: CONCLUSION
+       World: command · Atom: U-235
+       ───────────────────────────────────────── -->
+  <section id="section-conclusion" class="story-section story-section--tall" data-world="command">
+    <div class="section-inner">
+
+      <div class="section-header reveal-el explode-reveal">
+        <span class="section-number">06 / CONCLUSION</span>
+        <h2>Strategic Implications</h2>
+        <p>Authored by Jacky Chen</p>
+      </div>
+
+      <p class="preferred-hero reveal-el" data-delay="100">
+        This foresight exercise makes one thing clear above all others: nuclear energy's trajectory
+        is not determined by physics. It is determined by decisions — regulatory, financial, and
+        diplomatic — that are being made right now, in this decade.
+      </p>
+
+      <div class="stagger-container">
+        <p class="stagger-child">
+          The four scenarios mapped in this portfolio are not equally likely by default. They are
+          differently likely depending on choices that specific actors make in the next ten years.
+          The Static Grid materializes if regulatory reform stalls and capital keeps flowing to
+          incumbent fossil infrastructure. The Fragmented Patchwork emerges if technological
+          development is allowed to remain the exclusive domain of wealthy states while the rest of
+          the world is locked into imported dependency. The Powerhouse Era arrives if breakthrough
+          technology is captured by a small set of national and corporate actors without corresponding
+          governance structures to ensure broad access. And the Decentralized Boom — the preferred
+          future this analysis points toward — requires deliberate, coordinated action to make it real.
+        </p>
+        <p class="stagger-child">
+          The horizon signals analyzed in this portfolio are not predictions of that preferred future.
+          They are early indicators that its prerequisites are becoming technically and economically
+          tractable. Advanced reactor designs capable of converting nuclear waste into industrial value
+          streams address nuclear's most persistent political liability. Domestic enrichment
+          infrastructure reduces the geopolitical chokepoints that have historically constrained
+          nuclear expansion. Underground SMR deployment opens siting possibilities that make nuclear
+          feasible at scales and in locations previously unavailable. Each of these signals represents
+          a decision point, not a certainty. Acting on them requires institutional will that is
+          currently unevenly distributed across governments and firms.
+        </p>
+        <p class="stagger-child">
+          The most important action the preferred future demands is this: nuclear's advocates, its
+          regulators, and its financiers must treat the next ten years as a deployment window, not a
+          development window. The technology is mature enough to act. The demand signals — from AI
+          infrastructure, from grid decarbonization mandates, from energy security imperatives —
+          are converging in ways that create genuine commercial pull for the first time in decades.
+          The Futures Triangle's push of the present is, in 2025, unusually strong. That push will
+          not remain as strong indefinitely. The window in which it can be converted into durable
+          structural change is open now. Closing it requires policy urgency, investment discipline,
+          and international coordination at a level commensurate with the scale of the transition
+          that the preferred future demands.
+        </p>
+      </div>
+
+      <!-- Key stats strip -->
+      <div class="stats-strip zoom-reveal" data-zoom-delay="0.2">
+        <div>
+          <span class="stat-number" data-value="85" data-suffix="%" data-decimals="0">0%</span>
+          <span class="stat-label">clean electricity by 2048 in preferred future</span>
+        </div>
+        <div>
+          <span class="stat-number" data-value="100" data-suffix="×" data-decimals="0">0×</span>
+          <span class="stat-label">less land than equivalent solar capacity</span>
+        </div>
+        <div>
+          <span class="stat-number" data-value="60" data-suffix="%" data-decimals="0">0%</span>
+          <span class="stat-label">households in distributed generation by 2048</span>
+        </div>
+        <div>
+          <span class="stat-number" data-value="2050" data-suffix="" data-decimals="0">0</span>
+          <span class="stat-label">target year for strategic pathway completion</span>
+        </div>
+      </div>
+
+      <div class="section-divider reveal-line"></div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       REFERENCES
+       World: command
+       ───────────────────────────────────────── -->
+  <section id="section-references" class="story-section references-section" data-world="command">
+    <div class="section-inner">
+
+      <div class="section-header reveal-el explode-reveal">
+        <span class="section-number">REF / REFERENCES</span>
+        <h2>Sources</h2>
+      </div>
+
+      <ul class="references-list stagger-container">
+        <li class="stagger-child">
+          Global Laser Enrichment. (2026, March 26). <em>Business — Global Laser Enrichment.</em>
+          GLE. <a href="https://www.gle-us.com/business/" target="_blank" rel="noopener">https://www.gle-us.com/business/</a>
+        </li>
+        <li class="stagger-child">
+          Data Center Knowledge. (2025, April 30). <em>Data Centers Bypassing the Grid to Obtain
+          the Power They Need.</em>
+          <a href="https://www.datacenterknowledge.com/energy-power-supply/data-centers-bypassing-the-grid-to-obtain-the-power-they-need" target="_blank" rel="noopener">datacenterknowledge.com</a>
+        </li>
+        <li class="stagger-child">
+          Thomas, M. (2026, January 26). <em>Data Centers Build Own Power Plants to Avoid Grid
+          Delays.</em> LinkedIn.
+          <a href="https://www.linkedin.com/posts/michael-thomas-4b01054a_im-working-on-a-report-about-data-center-activity-7422003983294070785-A7L" target="_blank" rel="noopener">linkedin.com</a>
+        </li>
+        <li class="stagger-child">
+          Deep Fission. (2025). <em>Deep Fission: Underground Nuclear Reactor Technology.</em>
+          <a href="https://deepfission.com" target="_blank" rel="noopener">deepfission.com</a>
+        </li>
+        <li class="stagger-child">
+          Institute for Energy and Environmental Research. (n.d.). <em>Table of Nuclear Reactor
+          Accidents.</em>
+          <a href="https://ieer.org/resource/factsheets/table-nuclear-reactor-accidents/" target="_blank" rel="noopener">ieer.org</a>
+        </li>
+        <li class="stagger-child">
+          Campaign for Nuclear Disarmament. (n.d.). <em>Why We Oppose Nuclear Power.</em>
+          <a href="https://cnduk.org/about/trade-unions/why-we-oppose-nuclear-power/" target="_blank" rel="noopener">cnduk.org</a>
+        </li>
+        <li class="stagger-child">
+          Shellenberger, M. (2019, February 14). <em>The Real Reason They Hate Nuclear.</em> Forbes.
+          <a href="https://www.forbes.com/sites/michaelshellenberger/2019/02/14/the-real-reason-they-hate-nuclear-is-because-it-means-we-dont-need-renewables/" target="_blank" rel="noopener">forbes.com</a>
+        </li>
+        <li class="stagger-child">
+          Nuclear Energy Institute. (2015). <em>Land Needs for Wind, Solar Dwarf Nuclear Plants.</em>
+          <a href="https://www.nei.org/news/2015/land-needs-for-wind-solar-dwarf-nuclear-plants" target="_blank" rel="noopener">nei.org</a>
+        </li>
+        <li class="stagger-child">
+          International Energy Agency. (2023). <em>World Energy Outlook 2023.</em> IEA.
+        </li>
+        <li class="stagger-child">
+          International Renewable Energy Agency. (2023). <em>World Energy Transitions Outlook 2023.</em> IRENA.
+        </li>
+        <li class="stagger-child">
+          World Nuclear Association. (2024). <em>Small Modular Reactors.</em>
+          <a href="https://www.world-nuclear.org/information-library/nuclear-fuel-cycle/nuclear-power-reactors/small-nuclear-power-reactors" target="_blank" rel="noopener">world-nuclear.org</a>
+        </li>
+        <li class="stagger-child">
+          Commonwealth Fusion Systems. (2024). <em>SPARC and ARC Fusion Reactor Program.</em>
+          <a href="https://cfs.energy" target="_blank" rel="noopener">cfs.energy</a>
+        </li>
+        <li class="stagger-child">
+          U.S. Department of Energy. (2023). <em>Pathways to Commercial Liftoff: Advanced Nuclear.</em> DOE.
+        </li>
+        <li class="stagger-child">
+          Inman, M. (2013). <em>Nuclear power: The dream of a decade.</em> Nature, 502(7471), 266–268.
+        </li>
+        <li class="stagger-child">
+          Lovering, J. R., Yip, A., &amp; Nordhaus, T. (2016). <em>Historical construction costs of
+          global nuclear power reactors.</em> Energy Policy, 91, 371–382.
+        </li>
+        <li class="stagger-child">
+          IAEA. (2022). <em>Nuclear Power and the Clean Energy Transition.</em> International Atomic
+          Energy Agency.
+        </li>
+        <li class="stagger-child">
+          Inhofe, J., &amp; Booker, C. (2019). <em>Nuclear Energy Leadership Act.</em> U.S. Senate.
+          S. 903, 116th Congress.
+        </li>
+      </ul>
+
+    </div>
+  </section>
+
+</main><!-- /scroll-container -->
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT MODULES
+     ══════════════════════════════════════════ -->
+
+<!-- Core engines (non-module, loaded first) -->
+<script src="js/particles.js"></script>
+<script src="js/parallax.js"></script>
+<script src="js/scrollytelling.js"></script>
+<script src="js/world-switcher.js"></script>
+
+<!-- Animation engine: zoom reveals, 3D tilt, explode, hover panels, line wipes, counters -->
+<script src="js/animations.js"></script>
+
+<!-- Three.js asset loader (ES module) -->
+<script type="module" src="js/three-assets.js"></script>
+
+<!-- HUD scroll readout updater (inline) -->
+<script>
+  window.addEventListener('scroll', function() {
+    const el = document.getElementById('hud-readout-scroll');
+    if (el) {
+      const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 999);
+      el.textContent = String(pct).padStart(3, '0');
+    }
+  }, { passive: true });
+
+  /* Section counter update */
+  const sectionNums = {
+    'section-hero':       '01',
+    'section-executive':  '01',
+    'section-signals':    '02',
+    'section-futures-map':'03',
+    'section-scenarios':  '04',
+    'section-preferred':  '05',
+    'section-pathway':    '05',
+    'section-conclusion': '06',
+    'section-references': 'RF'
+  };
+
+  document.addEventListener('world-change', function() {
+    /* Find current most-visible section */
+    const sections = document.querySelectorAll('.story-section');
+    let best = null, bestRatio = 0;
+    sections.forEach(s => {
+      const rect = s.getBoundingClientRect();
+      const vis  = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+      if (vis > bestRatio) { bestRatio = vis; best = s; }
+    });
+    if (best) {
+      const num = sectionNums[best.id] || '01';
+      const el  = document.getElementById('hud-readout-section');
+      if (el) el.textContent = num;
+    }
+  });
+</script>
+
+</body>
+</html>

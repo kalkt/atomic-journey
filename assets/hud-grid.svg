@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Scan-line sweep gradient -->
+    <linearGradient id="scan-sweep" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#00d4ff" stop-opacity="0"/>
+      <stop offset="48%"  stop-color="#00d4ff" stop-opacity="0"/>
+      <stop offset="50%"  stop-color="#00d4ff" stop-opacity="0.18"/>
+      <stop offset="52%"  stop-color="#00d4ff" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Grid fade vignette -->
+    <radialGradient id="grid-vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"   stop-color="#000000" stop-opacity="0"/>
+      <stop offset="60%"  stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.85"/>
+    </radialGradient>
+    <!-- Thin tactical line filter -->
+    <filter id="grid-glow">
+      <feGaussianBlur stdDeviation="0.8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Dot glow -->
+    <filter id="dot-glow">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+
+    <!-- Small grid pattern (40×40) -->
+    <pattern id="minor-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00d4ff" stroke-width="0.25" opacity="0.18"/>
+    </pattern>
+
+    <!-- Major grid pattern (200×200) -->
+    <pattern id="major-grid" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#00d4ff" stroke-width="0.6" opacity="0.3"/>
+      <!-- Cross-hair at intersections -->
+      <line x1="196" y1="0"   x2="200" y2="0"   stroke="#00d4ff" stroke-width="1"   opacity="0.4"/>
+      <line x1="0"   y1="196" x2="0"   y2="200" stroke="#00d4ff" stroke-width="1"   opacity="0.4"/>
+    </pattern>
+
+    <!-- Diagonal accent pattern -->
+    <pattern id="diag-grid" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="80" x2="80" y2="0" stroke="#00d4ff" stroke-width="0.2" opacity="0.08"/>
+    </pattern>
+
+    <!-- Intersection dot pattern -->
+    <pattern id="dot-grid" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+      <circle cx="0"   cy="0"   r="1.5" fill="#00d4ff" opacity="0.25"/>
+      <circle cx="200" cy="0"   r="1.5" fill="#00d4ff" opacity="0.25"/>
+      <circle cx="0"   cy="200" r="1.5" fill="#00d4ff" opacity="0.25"/>
+      <circle cx="200" cy="200" r="1.5" fill="#00d4ff" opacity="0.25"/>
+      <circle cx="100" cy="100" r="1"   fill="#00d4ff" opacity="0.12"/>
+    </pattern>
+  </defs>
+
+  <!-- ── MINOR GRID ── -->
+  <rect width="1920" height="1080" fill="url(#minor-grid)"/>
+
+  <!-- ── MAJOR GRID ── -->
+  <rect width="1920" height="1080" fill="url(#major-grid)"/>
+
+  <!-- ── DIAGONAL ACCENTS ── -->
+  <rect width="1920" height="1080" fill="url(#diag-grid)"/>
+
+  <!-- ── INTERSECTION DOTS ── -->
+  <rect width="1920" height="1080" fill="url(#dot-grid)"/>
+
+  <!-- ── TACTICAL CONCENTRIC CIRCLES (center) ── -->
+  <g filter="url(#grid-glow)" opacity="0.2" fill="none" stroke="#00d4ff">
+    <circle cx="960" cy="540" r="100" stroke-width="0.5" stroke-dasharray="6 8"/>
+    <circle cx="960" cy="540" r="200" stroke-width="0.4" stroke-dasharray="4 10"/>
+    <circle cx="960" cy="540" r="300" stroke-width="0.4" stroke-dasharray="4 12"/>
+    <circle cx="960" cy="540" r="400" stroke-width="0.3" stroke-dasharray="3 14"/>
+    <circle cx="960" cy="540" r="500" stroke-width="0.3" stroke-dasharray="3 16"/>
+    <circle cx="960" cy="540" r="650" stroke-width="0.25" stroke-dasharray="2 18"/>
+    <circle cx="960" cy="540" r="800" stroke-width="0.25" stroke-dasharray="2 20"/>
+  </g>
+
+  <!-- ── CENTER CROSS-HAIR ── -->
+  <g filter="url(#grid-glow)" opacity="0.25" stroke="#00d4ff" stroke-width="0.6">
+    <line x1="960"  y1="0"    x2="960"  y2="1080"/>
+    <line x1="0"    y1="540"  x2="1920" y2="540"/>
+    <!-- Secondary diagonal axes -->
+    <line x1="0"    y1="0"    x2="1920" y2="1080" stroke-width="0.3" opacity="0.5"/>
+    <line x1="1920" y1="0"    x2="0"    y2="1080" stroke-width="0.3" opacity="0.5"/>
+  </g>
+
+  <!-- ── CENTER TARGETING RETICLE ── -->
+  <g filter="url(#grid-glow)" fill="none" stroke="#00d4ff">
+    <!-- Inner ring -->
+    <circle cx="960" cy="540" r="24" stroke-width="1" opacity="0.5"/>
+    <!-- Outer ring -->
+    <circle cx="960" cy="540" r="40" stroke-width="0.6" stroke-dasharray="8 4" opacity="0.35"/>
+    <!-- Tick marks -->
+    <line x1="960" y1="516" x2="960" y2="508" stroke-width="1.2" opacity="0.6"/>
+    <line x1="960" y1="564" x2="960" y2="572" stroke-width="1.2" opacity="0.6"/>
+    <line x1="936" y1="540" x2="928" y2="540" stroke-width="1.2" opacity="0.6"/>
+    <line x1="984" y1="540" x2="992" y2="540" stroke-width="1.2" opacity="0.6"/>
+    <!-- Center dot -->
+    <circle cx="960" cy="540" r="3" fill="#00d4ff" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ── CORNER TACTICAL ZONES ── -->
+  <!-- TL corner detail -->
+  <g filter="url(#grid-glow)" stroke="#00d4ff" fill="none" opacity="0.3">
+    <polyline points="40,80 40,40 80,40" stroke-width="1.5"/>
+    <polyline points="120,40 160,40 160,80" stroke-width="0.8"/>
+    <line x1="40" y1="60" x2="160" y2="60" stroke-width="0.3" stroke-dasharray="4 6"/>
+    <line x1="60" y1="40" x2="60"  y2="160" stroke-width="0.3" stroke-dasharray="4 6"/>
+    <circle cx="40" cy="40" r="3" fill="#00d4ff" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- TR corner detail -->
+  <g filter="url(#grid-glow)" stroke="#00d4ff" fill="none" opacity="0.3">
+    <polyline points="1880,80 1880,40 1840,40" stroke-width="1.5"/>
+    <polyline points="1760,40 1720,40 1720,80" stroke-width="0.8"/>
+    <circle cx="1880" cy="40" r="3" fill="#00d4ff" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- BL corner detail -->
+  <g filter="url(#grid-glow)" stroke="#00d4ff" fill="none" opacity="0.3">
+    <polyline points="40,1000 40,1040 80,1040" stroke-width="1.5"/>
+    <circle cx="40" cy="1040" r="3" fill="#00d4ff" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- BR corner detail -->
+  <g filter="url(#grid-glow)" stroke="#00d4ff" fill="none" opacity="0.3">
+    <polyline points="1880,1000 1880,1040 1840,1040" stroke-width="1.5"/>
+    <circle cx="1880" cy="1040" r="3" fill="#00d4ff" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ── EDGE TICK MARKS ── -->
+  <g stroke="#00d4ff" stroke-width="0.6" opacity="0.2">
+    <!-- Top edge ticks every 200px -->
+    <line x1="200"  y1="0" x2="200"  y2="12"/>
+    <line x1="400"  y1="0" x2="400"  y2="12"/>
+    <line x1="600"  y1="0" x2="600"  y2="12"/>
+    <line x1="800"  y1="0" x2="800"  y2="12"/>
+    <line x1="1000" y1="0" x2="1000" y2="12"/>
+    <line x1="1200" y1="0" x2="1200" y2="12"/>
+    <line x1="1400" y1="0" x2="1400" y2="12"/>
+    <line x1="1600" y1="0" x2="1600" y2="12"/>
+    <line x1="1800" y1="0" x2="1800" y2="12"/>
+    <!-- Left edge ticks -->
+    <line x1="0" y1="200"  x2="12" y2="200"/>
+    <line x1="0" y1="400"  x2="12" y2="400"/>
+    <line x1="0" y1="600"  x2="12" y2="600"/>
+    <line x1="0" y1="800"  x2="12" y2="800"/>
+    <line x1="0" y1="1000" x2="12" y2="1000"/>
+  </g>
+
+  <!-- ── ANIMATED SCAN LINE ── -->
+  <rect width="1920" height="1080" fill="url(#scan-sweep)">
+    <animateTransform attributeName="transform" type="translate"
+      values="0,-1080; 0,1080" dur="6s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- ── SECONDARY HORIZONTAL SCAN (slower) ── -->
+  <rect width="1920" height="1080" fill="url(#scan-sweep)" opacity="0.5">
+    <animateTransform attributeName="transform" type="translate"
+      values="0,0; 0,2160" dur="10s" repeatCount="indefinite" begin="-5s"/>
+  </rect>
+
+  <!-- ── DATA READOUT BOXES (top-left area) ── -->
+  <g filter="url(#grid-glow)" opacity="0.2" stroke="#00d4ff" fill="none" stroke-width="0.5">
+    <rect x="200" y="60" width="120" height="14" rx="1"/>
+    <rect x="200" y="82" width="90"  height="14" rx="1"/>
+    <rect x="200" y="104" width="105" height="14" rx="1"/>
+  </g>
+
+  <!-- ── VIGNETTE ── -->
+  <rect width="1920" height="1080" fill="url(#grid-vignette)"/>
+</svg>

@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Radial dark gradient — reactor chamber -->
+    <radialGradient id="chamber-bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"   stop-color="#180602" stop-opacity="1"/>
+      <stop offset="40%"  stop-color="#0d0302" stop-opacity="1"/>
+      <stop offset="80%"  stop-color="#060101" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#020000" stop-opacity="1"/>
+    </radialGradient>
+    <!-- Orange heat glow from center-bottom -->
+    <radialGradient id="heat-glow" cx="50%" cy="90%" r="55%">
+      <stop offset="0%"   stop-color="#ff4400" stop-opacity="0.22"/>
+      <stop offset="30%"  stop-color="#cc2200" stop-opacity="0.10"/>
+      <stop offset="70%"  stop-color="#880800" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Secondary ember glow -->
+    <radialGradient id="ember-glow" cx="50%" cy="100%" r="40%">
+      <stop offset="0%"   stop-color="#ff8800" stop-opacity="0.15"/>
+      <stop offset="50%"  stop-color="#ff4400" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Noise texture filter -->
+    <filter id="wall-noise" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65 0.55" numOctaves="4" seed="3" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" result="grey"/>
+      <feComponentTransfer result="dark">
+        <feFuncR type="linear" slope="0.08"/>
+        <feFuncG type="linear" slope="0.04"/>
+        <feFuncB type="linear" slope="0.03"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="dark" mode="multiply"/>
+    </filter>
+    <!-- Heat shimmer distortion -->
+    <filter id="heat-shimmer" x="-2%" y="-2%" width="104%" height="104%">
+      <feTurbulence type="turbulence" baseFrequency="0.008 0.025" numOctaves="3" seed="7" result="turb">
+        <animate attributeName="baseFrequency" values="0.008 0.025;0.010 0.030;0.008 0.025" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="seed" values="7;12;7" dur="9s" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- Panel glow -->
+    <filter id="panel-glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Rivet pattern -->
+    <pattern id="rivet-row" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <circle cx="30" cy="30" r="2.5" fill="#1a0804" stroke="#330d06" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+
+  <!-- ── BASE CHAMBER ── -->
+  <rect width="1920" height="1080" fill="url(#chamber-bg)"/>
+
+  <!-- ── WALL PANEL GRID ── -->
+  <g opacity="0.18" stroke="#2a1006" stroke-width="0.8" fill="none">
+    <!-- Vertical panels -->
+    <line x1="160"  y1="0" x2="160"  y2="1080"/>
+    <line x1="320"  y1="0" x2="320"  y2="1080"/>
+    <line x1="480"  y1="0" x2="480"  y2="1080"/>
+    <line x1="640"  y1="0" x2="640"  y2="1080"/>
+    <line x1="800"  y1="0" x2="800"  y2="1080"/>
+    <line x1="960"  y1="0" x2="960"  y2="1080"/>
+    <line x1="1120" y1="0" x2="1120" y2="1080"/>
+    <line x1="1280" y1="0" x2="1280" y2="1080"/>
+    <line x1="1440" y1="0" x2="1440" y2="1080"/>
+    <line x1="1600" y1="0" x2="1600" y2="1080"/>
+    <line x1="1760" y1="0" x2="1760" y2="1080"/>
+    <!-- Horizontal panels -->
+    <line x1="0" y1="135"  x2="1920" y2="135"/>
+    <line x1="0" y1="270"  x2="1920" y2="270"/>
+    <line x1="0" y1="405"  x2="1920" y2="405"/>
+    <line x1="0" y1="540"  x2="1920" y2="540"/>
+    <line x1="0" y1="675"  x2="1920" y2="675"/>
+    <line x1="0" y1="810"  x2="1920" y2="810"/>
+    <line x1="0" y1="945"  x2="1920" y2="945"/>
+  </g>
+
+  <!-- ── RIVET TEXTURE ── -->
+  <rect width="1920" height="1080" fill="url(#rivet-row)" opacity="0.4"/>
+
+  <!-- ── NOISE / SURFACE GRIT ── -->
+  <rect width="1920" height="1080" fill="#ff4400" opacity="0" filter="url(#wall-noise)"/>
+  <!-- Layered noise for depth -->
+  <rect width="1920" height="1080" fill="#1a0804" opacity="0.6" filter="url(#wall-noise)"/>
+
+  <!-- ── HEAT GLOWS ── -->
+  <rect width="1920" height="1080" fill="url(#heat-glow)">
+    <animate attributeName="opacity" values="0.9;1.1;0.9" dur="4s" repeatCount="indefinite"/>
+  </rect>
+  <rect width="1920" height="1080" fill="url(#ember-glow)">
+    <animate attributeName="opacity" values="0.8;1.2;0.8" dur="6s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- ── HEAT SHIMMER LAYER ── -->
+  <rect width="1920" height="1080" fill="#ff660008" filter="url(#heat-shimmer)"/>
+
+  <!-- ── STRUCTURAL CONDUITS (horizontal pipes) ── -->
+  <g filter="url(#panel-glow)" opacity="0.25">
+    <!-- Left conduit -->
+    <rect x="0"   y="520" width="220" height="8" fill="#ff4400" rx="2"/>
+    <rect x="0"   y="520" width="220" height="2" fill="#ff8800"/>
+    <!-- Right conduit -->
+    <rect x="1700" y="520" width="220" height="8" fill="#ff4400" rx="2"/>
+    <rect x="1700" y="520" width="220" height="2" fill="#ff8800"/>
+    <!-- Top conduit -->
+    <rect x="880" y="0" width="8" height="200" fill="#ff4400" rx="2"/>
+    <rect x="880" y="0" width="2" height="200" fill="#ff8800"/>
+    <!-- Bottom conduit -->
+    <rect x="880" y="900" width="8" height="180" fill="#ff4400" rx="2"/>
+    <rect x="880" y="900" width="2" height="180" fill="#ff8800"/>
+  </g>
+
+  <!-- ── WARNING STRIPES (bottom) ── -->
+  <g opacity="0.08">
+    <rect x="0"   y="1040" width="80" height="40" fill="#ff4400"/>
+    <rect x="120" y="1040" width="80" height="40" fill="#ff4400"/>
+    <rect x="240" y="1040" width="80" height="40" fill="#ff4400"/>
+    <rect x="360" y="1040" width="80" height="40" fill="#ff4400"/>
+    <rect x="480" y="1040" width="80" height="40" fill="#ff4400"/>
+  </g>
+
+  <!-- ── AMBIENT ORANGE RIM VIGNETTE ── -->
+  <radialGradient id="rim-vignette" cx="50%" cy="50%" r="75%" gradientUnits="userSpaceOnUse">
+    <stop offset="50%"  stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.75"/>
+  </radialGradient>
+  <rect width="1920" height="1080" fill="url(#rim-vignette)"/>
+
+  <!-- ── PULSING CENTER GLOW (heat core indicator) ── -->
+  <ellipse cx="960" cy="1100" rx="400" ry="120" fill="#ff4400" opacity="0.08" filter="url(#panel-glow)">
+    <animate attributeName="opacity" values="0.08;0.18;0.08" dur="3.5s" repeatCount="indefinite"/>
+    <animate attributeName="ry" values="120;145;120" dur="3.5s" repeatCount="indefinite"/>
+  </ellipse>
+</svg>

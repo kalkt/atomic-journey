@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <!-- Bloom/glow filter -->
+    <filter id="plasma-bloom" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur1"/>
+      <feGaussianBlur stdDeviation="3" result="blur2" in="SourceGraphic"/>
+      <feMerge>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="plasma-core-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="arc-blur">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+
+    <!-- Plasma gradient — teal to blue-white -->
+    <linearGradient id="plasma-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00ffee" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#00ffee" stop-opacity="0.9"/>
+      <stop offset="50%"  stop-color="#80ffff" stop-opacity="1"/>
+      <stop offset="80%"  stop-color="#00d4ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Outer ring gradient -->
+    <linearGradient id="outer-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#0088ff" stop-opacity="0.4"/>
+      <stop offset="50%"  stop-color="#00ffee" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#cc00ff" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <!-- Inner glow radial -->
+    <radialGradient id="core-radial" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#80ffff" stop-opacity="0.35"/>
+      <stop offset="40%"  stop-color="#00ffee" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Turbulence for plasma shimmer -->
+    <filter id="plasma-warp" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="3" seed="5" result="turb">
+        <animate attributeName="baseFrequency" values="0.04;0.06;0.04" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="seed" values="5;8;5" dur="7s" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- Background core glow -->
+  <circle cx="300" cy="300" r="200" fill="url(#core-radial)" filter="url(#plasma-core-glow)"/>
+
+  <!-- ── OUTER MAGNETIC RING (rotating) ── -->
+  <g transform-origin="300 300">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 300 300" to="360 300 300" dur="14s" repeatCount="indefinite"/>
+    <circle cx="300" cy="300" r="220"
+      fill="none"
+      stroke="url(#outer-ring-grad)"
+      stroke-width="2"
+      stroke-dasharray="80 40 120 60 200 80"
+      opacity="0.5"
+      filter="url(#plasma-bloom)"/>
+    <!-- Tick marks on outer ring -->
+    <g stroke="#00ffee" stroke-width="1.5" opacity="0.4">
+      <line x1="300" y1="78"  x2="300" y2="66"/>
+      <line x1="300" y1="522" x2="300" y2="534"/>
+      <line x1="78"  y1="300" x2="66"  y2="300"/>
+      <line x1="522" y1="300" x2="534" y2="300"/>
+    </g>
+  </g>
+
+  <!-- ── MAIN TOKAMAK RING ── -->
+  <g filter="url(#plasma-warp)">
+    <g transform-origin="300 300">
+      <animateTransform attributeName="transform" type="rotate"
+        from="0 300 300" to="360 300 300" dur="8s" repeatCount="indefinite"/>
+      <circle cx="300" cy="300" r="180"
+        fill="none"
+        stroke="#00ffee"
+        stroke-width="6"
+        stroke-dasharray="200 30"
+        filter="url(#plasma-bloom)"
+        opacity="0.85">
+        <animate attributeName="stroke-dashoffset" values="0;-460" dur="8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.85;0.5;0.9;0.85" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-width" values="6;9;6" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- ── SECONDARY RING (counter-rotate) ── -->
+  <g transform-origin="300 300">
+    <animateTransform attributeName="transform" type="rotate"
+      from="360 300 300" to="0 300 300" dur="11s" repeatCount="indefinite"/>
+    <circle cx="300" cy="300" r="155"
+      fill="none"
+      stroke="#00d4ff"
+      stroke-width="3"
+      stroke-dasharray="120 20 60 30"
+      filter="url(#arc-blur)"
+      opacity="0.55">
+      <animate attributeName="stroke-dashoffset" values="0;300" dur="11s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ── PLASMA ARCS (bright hot spots) ── -->
+  <!-- Arc 1 -->
+  <path d="M 300 120 Q 410 180 480 300 Q 410 420 300 480 Q 190 420 120 300 Q 190 180 300 120"
+    fill="none"
+    stroke="#80ffff"
+    stroke-width="2"
+    filter="url(#plasma-bloom)"
+    opacity="0.3">
+    <animate attributeName="stroke-dasharray" values="0,1600;800,800;1600,0;800,800;0,1600" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- Bright hot arc segments — rotating -->
+  <g transform-origin="300 300">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 300 300" to="360 300 300" dur="6s" repeatCount="indefinite"/>
+    <!-- Hot spot arc segment -->
+    <circle cx="300" cy="300" r="180"
+      fill="none"
+      stroke="#ffffff"
+      stroke-width="4"
+      stroke-dasharray="35 1095"
+      filter="url(#plasma-bloom)"
+      opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.4;0.9" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g transform-origin="300 300">
+    <animateTransform attributeName="transform" type="rotate"
+      from="120 300 300" to="480 300 300" dur="6s" repeatCount="indefinite"/>
+    <circle cx="300" cy="300" r="180"
+      fill="none"
+      stroke="#80ffff"
+      stroke-width="3"
+      stroke-dasharray="25 1105"
+      filter="url(#plasma-bloom)"
+      opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g transform-origin="300 300">
+    <animateTransform attributeName="transform" type="rotate"
+      from="240 300 300" to="600 300 300" dur="6s" repeatCount="indefinite"/>
+    <circle cx="300" cy="300" r="180"
+      fill="none"
+      stroke="#00ffee"
+      stroke-width="3"
+      stroke-dasharray="20 1110"
+      filter="url(#plasma-bloom)"
+      opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.15;0.6" dur="2.7s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ── INNER CONTAINMENT RING ── -->
+  <circle cx="300" cy="300" r="120"
+    fill="none"
+    stroke="#0066aa"
+    stroke-width="1"
+    stroke-dasharray="8 4"
+    opacity="0.3">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 300 300" to="-360 300 300" dur="20s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ── CENTER NUCLEUS GLOW ── -->
+  <circle cx="300" cy="300" r="28" fill="#00ffee" opacity="0.05" filter="url(#plasma-core-glow)">
+    <animate attributeName="r" values="28;36;28" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.05;0.15;0.05" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="300" r="8" fill="#80ffff" opacity="0.6" filter="url(#plasma-bloom)">
+    <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ── DECORATIVE CROSS-HAIRS ── -->
+  <g stroke="#00ffee" stroke-width="0.5" opacity="0.2">
+    <line x1="300" y1="80"  x2="300" y2="520"/>
+    <line x1="80"  y1="300" x2="520" y2="300"/>
+    <circle cx="300" cy="300" r="60"  fill="none" stroke-dasharray="4 8"/>
+    <circle cx="300" cy="300" r="100" fill="none" stroke-dasharray="4 12"/>
+  </g>
+
+  <!-- ── MAGNETIC FIELD LINES ── -->
+  <g fill="none" stroke="#0044aa" stroke-width="0.8" opacity="0.15">
+    <ellipse cx="300" cy="300" rx="90" ry="210" transform="rotate(30 300 300)"/>
+    <ellipse cx="300" cy="300" rx="90" ry="210" transform="rotate(90 300 300)"/>
+    <ellipse cx="300" cy="300" rx="90" ry="210" transform="rotate(150 300 300)"/>
+  </g>
+</svg>

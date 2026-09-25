@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 700" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <filter id="mid-glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="window-glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="grit">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feBlend in="SourceGraphic" mode="multiply"/>
+    </filter>
+    <!-- Neon window colors -->
+    <radialGradient id="win-purple" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#cc00ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#6600aa" stop-opacity="0.3"/>
+    </radialGradient>
+    <radialGradient id="win-cyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#006688" stop-opacity="0.3"/>
+    </radialGradient>
+    <radialGradient id="win-orange" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff8800" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#441100" stop-opacity="0.2"/>
+    </radialGradient>
+    <!-- Building gradient -->
+    <linearGradient id="bldg-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1a0830"/>
+      <stop offset="100%" stop-color="#0a0418"/>
+    </linearGradient>
+    <linearGradient id="bldg-grad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0c1428"/>
+      <stop offset="100%" stop-color="#060810"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ════ BUILDING CLUSTER LEFT ════ -->
+  <g filter="url(#mid-glow)">
+    <!-- Tower A -->
+    <rect x="0"   y="200" width="65"  height="500" fill="url(#bldg-grad)"/>
+    <rect x="65"  y="230" width="3"   height="470" fill="#cc00ff" opacity="0.15"/>
+    <!-- Windows A -->
+    <g filter="url(#window-glow)">
+      <rect x="10" y="215" width="8" height="5" fill="url(#win-purple)" rx="1">
+        <animate attributeName="opacity" values="0.8;0.3;0.9;0.5;0.8" dur="4.2s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="24" y="215" width="8" height="5" fill="url(#win-cyan)" rx="1" opacity="0.7"/>
+      <rect x="38" y="215" width="8" height="5" fill="url(#win-purple)" rx="1">
+        <animate attributeName="opacity" values="0.6;1;0.4;0.8;0.6" dur="3.7s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="10" y="230" width="8" height="5" fill="url(#win-orange)" rx="1" opacity="0.5"/>
+      <rect x="24" y="230" width="8" height="5" fill="url(#win-purple)" rx="1" opacity="0.8"/>
+      <rect x="38" y="230" width="8" height="5" fill="url(#win-cyan)" rx="1">
+        <animate attributeName="opacity" values="0.9;0.2;0.7;0.9" dur="5.1s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="10" y="245" width="8" height="5" fill="url(#win-purple)" rx="1" opacity="0.6"/>
+      <rect x="24" y="245" width="8" height="5" fill="url(#win-orange)" rx="1" opacity="0.4"/>
+      <rect x="38" y="245" width="8" height="5" fill="url(#win-purple)" rx="1" opacity="0.9"/>
+      <rect x="10" y="260" width="8" height="5" fill="url(#win-cyan)" rx="1">
+        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="6s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="24" y="260" width="8" height="5" fill="url(#win-purple)" rx="1" opacity="0.7"/>
+      <rect x="38" y="260" width="8" height="5" fill="url(#win-orange)" rx="1" opacity="0.5"/>
+    </g>
+
+    <!-- Tower B — taller -->
+    <rect x="72"  y="150" width="80"  height="550" fill="url(#bldg-grad2)"/>
+    <rect x="152" y="150" width="3"   height="550" fill="#00d4ff" opacity="0.1"/>
+    <rect x="72"  y="150" width="80"  height="4"   fill="#cc00ff" opacity="0.5"/>
+    <!-- Neon ledge lines -->
+    <rect x="72"  y="220" width="80"  height="1"   fill="#cc00ff" opacity="0.2"/>
+    <rect x="72"  y="290" width="80"  height="1"   fill="#cc00ff" opacity="0.15"/>
+    <rect x="72"  y="360" width="80"  height="1"   fill="#6600ff" opacity="0.12"/>
+    <!-- Windows B grid -->
+    <g filter="url(#window-glow)" opacity="0.8">
+      <rect x="82"  y="165" width="10" height="6" fill="url(#win-cyan)" rx="1"/>
+      <rect x="98"  y="165" width="10" height="6" fill="url(#win-purple)" rx="1">
+        <animate attributeName="opacity" values="1;0.3;0.8;1" dur="3.3s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="114" y="165" width="10" height="6" fill="url(#win-cyan)" rx="1"/>
+      <rect x="130" y="165" width="10" height="6" fill="url(#win-orange)" rx="1" opacity="0.6"/>
+      <rect x="82"  y="180" width="10" height="6" fill="url(#win-purple)" rx="1" opacity="0.9"/>
+      <rect x="98"  y="180" width="10" height="6" fill="url(#win-orange)" rx="1"/>
+      <rect x="114" y="180" width="10" height="6" fill="url(#win-purple)" rx="1" opacity="0.5"/>
+      <rect x="130" y="180" width="10" height="6" fill="url(#win-cyan)" rx="1">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="4.8s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="82"  y="195" width="10" height="6" fill="url(#win-cyan)" rx="1" opacity="0.7"/>
+      <rect x="98"  y="195" width="10" height="6" fill="url(#win-purple)" rx="1"/>
+      <rect x="114" y="195" width="10" height="6" fill="url(#win-orange)" rx="1" opacity="0.6"/>
+      <rect x="130" y="195" width="10" height="6" fill="url(#win-purple)" rx="1" opacity="0.8"/>
+    </g>
+    <!-- Antenna -->
+    <line x1="112" y1="150" x2="112" y2="110" stroke="#cc00ff" stroke-width="1.5" opacity="0.7"/>
+    <circle cx="112" cy="108" r="3" fill="#cc00ff" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.2;0.9" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ════ CENTER-LEFT DISTRICT ════ -->
+  <g filter="url(#mid-glow)">
+    <rect x="240" y="180" width="90"  height="520" fill="url(#bldg-grad)"/>
+    <rect x="240" y="180" width="90"  height="3"   fill="#00d4ff" opacity="0.6"/>
+    <rect x="340" y="210" width="60"  height="490" fill="url(#bldg-grad2)"/>
+    <rect x="408" y="195" width="75"  height="505" fill="url(#bldg-grad)"/>
+    <rect x="408" y="195" width="75"  height="3"   fill="#cc00ff" opacity="0.5"/>
+    <!-- Neon vertical accent -->
+    <line x1="329" y1="180" x2="329" y2="700" stroke="#cc00ff" stroke-width="1" opacity="0.12"/>
+    <line x1="407" y1="195" x2="407" y2="700" stroke="#6600ff" stroke-width="1" opacity="0.1"/>
+    <!-- Windows center-left -->
+    <g filter="url(#window-glow)">
+      <rect x="250" y="195" width="12" height="7" fill="url(#win-purple)" rx="1" opacity="0.8"/>
+      <rect x="268" y="195" width="12" height="7" fill="url(#win-cyan)" rx="1">
+        <animate attributeName="opacity" values="0.9;0.2;0.7;0.9" dur="4s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="286" y="195" width="12" height="7" fill="url(#win-orange)" rx="1" opacity="0.5"/>
+      <rect x="304" y="195" width="12" height="7" fill="url(#win-purple)" rx="1" opacity="0.7"/>
+      <rect x="250" y="212" width="12" height="7" fill="url(#win-cyan)" rx="1" opacity="0.6"/>
+      <rect x="268" y="212" width="12" height="7" fill="url(#win-purple)" rx="1" opacity="0.9"/>
+      <rect x="286" y="212" width="12" height="7" fill="url(#win-orange)" rx="1">
+        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="5.5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="304" y="212" width="12" height="7" fill="url(#win-purple)" rx="1" opacity="0.8"/>
+    </g>
+    <!-- Rooftop dish -->
+    <ellipse cx="284" cy="180" rx="18" ry="4" fill="none" stroke="#00d4ff" stroke-width="1" opacity="0.4"/>
+    <line x1="284" y1="176" x2="284" y2="165" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+  </g>
+
+  <!-- ════ CENTER MEGA TOWER ════ -->
+  <g filter="url(#mid-glow)">
+    <rect x="820" y="100" width="120" height="600" fill="url(#bldg-grad)"/>
+    <rect x="820" y="100" width="120" height="4"   fill="#cc00ff" opacity="0.8"/>
+    <!-- Vertical neon stripes -->
+    <line x1="860" y1="100" x2="860" y2="700" stroke="#cc00ff" stroke-width="1.5" opacity="0.18"/>
+    <line x1="900" y1="100" x2="900" y2="700" stroke="#cc00ff" stroke-width="1.5" opacity="0.12"/>
+    <!-- Floor ledges -->
+    <rect x="820" y="200" width="120" height="1" fill="#cc00ff" opacity="0.25"/>
+    <rect x="820" y="300" width="120" height="1" fill="#cc00ff" opacity="0.2"/>
+    <rect x="820" y="400" width="120" height="1" fill="#9900ff" opacity="0.15"/>
+    <!-- Windows mega -->
+    <g filter="url(#window-glow)">
+      <rect x="832" y="115" width="14" height="8" fill="url(#win-purple)" rx="1" opacity="0.9"/>
+      <rect x="852" y="115" width="14" height="8" fill="url(#win-cyan)" rx="1">
+        <animate attributeName="opacity" values="1;0.3;0.8;1" dur="2.8s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="872" y="115" width="14" height="8" fill="url(#win-purple)" rx="1" opacity="0.7"/>
+      <rect x="892" y="115" width="14" height="8" fill="url(#win-orange)" rx="1" opacity="0.5"/>
+      <rect x="912" y="115" width="14" height="8" fill="url(#win-purple)" rx="1" opacity="0.8"/>
+      <rect x="832" y="133" width="14" height="8" fill="url(#win-orange)" rx="1" opacity="0.6"/>
+      <rect x="852" y="133" width="14" height="8" fill="url(#win-purple)" rx="1" opacity="0.9"/>
+      <rect x="872" y="133" width="14" height="8" fill="url(#win-cyan)" rx="1">
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="6s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="892" y="133" width="14" height="8" fill="url(#win-purple)" rx="1" opacity="0.7"/>
+      <rect x="912" y="133" width="14" height="8" fill="url(#win-orange)" rx="1" opacity="0.4"/>
+    </g>
+    <!-- Antenna spire -->
+    <line x1="880" y1="100" x2="880" y2="45" stroke="#cc00ff" stroke-width="2" opacity="0.8"/>
+    <line x1="880" y1="100" x2="880" y2="45" stroke="#cc00ff" stroke-width="6" opacity="0.15"/>
+    <circle cx="880" cy="43" r="4" fill="#cc00ff">
+      <animate attributeName="opacity" values="1;0.1;1" dur="1.8s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="4;6;4" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Broadcast rings -->
+    <circle cx="880" cy="43" r="12" fill="none" stroke="#cc00ff" stroke-width="0.5" opacity="0">
+      <animate attributeName="r" values="4;28;4" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="880" cy="43" r="12" fill="none" stroke="#cc00ff" stroke-width="0.5" opacity="0">
+      <animate attributeName="r" values="4;28;4" dur="3s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ════ RIGHT DISTRICT ════ -->
+  <g filter="url(#mid-glow)">
+    <rect x="1380" y="170" width="95"  height="530" fill="url(#bldg-grad2)"/>
+    <rect x="1380" y="170" width="95"  height="3"   fill="#00d4ff" opacity="0.5"/>
+    <rect x="1480" y="195" width="70"  height="505" fill="url(#bldg-grad)"/>
+    <rect x="1555" y="155" width="110" height="545" fill="url(#bldg-grad2)"/>
+    <rect x="1555" y="155" width="110" height="4"   fill="#cc00ff" opacity="0.7"/>
+    <!-- Windows right -->
+    <g filter="url(#window-glow)">
+      <rect x="1392" y="185" width="12" height="7" fill="url(#win-cyan)" rx="1" opacity="0.8"/>
+      <rect x="1410" y="185" width="12" height="7" fill="url(#win-purple)" rx="1">
+        <animate attributeName="opacity" values="0.8;0.2;0.7;0.8" dur="3.6s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="1428" y="185" width="12" height="7" fill="url(#win-orange)" rx="1" opacity="0.5"/>
+      <rect x="1446" y="185" width="12" height="7" fill="url(#win-cyan)" rx="1" opacity="0.9"/>
+      <rect x="1392" y="202" width="12" height="7" fill="url(#win-purple)" rx="1" opacity="0.6"/>
+      <rect x="1410" y="202" width="12" height="7" fill="url(#win-cyan)" rx="1" opacity="0.8"/>
+      <rect x="1428" y="202" width="12" height="7" fill="url(#win-purple)" rx="1">
+        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="7s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="1446" y="202" width="12" height="7" fill="url(#win-orange)" rx="1" opacity="0.5"/>
+      <rect x="1568" y="170" width="14" height="8" fill="url(#win-purple)" rx="1" opacity="0.9"/>
+      <rect x="1588" y="170" width="14" height="8" fill="url(#win-cyan)" rx="1" opacity="0.7"/>
+      <rect x="1608" y="170" width="14" height="8" fill="url(#win-orange)" rx="1">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="4.4s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="1628" y="170" width="14" height="8" fill="url(#win-purple)" rx="1" opacity="0.8"/>
+    </g>
+    <!-- Antenna right -->
+    <line x1="1610" y1="155" x2="1610" y2="110" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+    <circle cx="1610" cy="108" r="3" fill="#00d4ff">
+      <animate attributeName="opacity" values="0.8;0.1;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ════ FAR RIGHT TOWERS ════ -->
+  <g filter="url(#mid-glow)">
+    <rect x="1700" y="190" width="80"  height="510" fill="url(#bldg-grad)"/>
+    <rect x="1785" y="160" width="95"  height="540" fill="url(#bldg-grad2)"/>
+    <rect x="1785" y="160" width="95"  height="3"   fill="#cc00ff" opacity="0.6"/>
+    <rect x="1880" y="200" width="40"  height="500" fill="url(#bldg-grad)"/>
+    <g filter="url(#window-glow)">
+      <rect x="1712" y="205" width="10" height="6" fill="url(#win-purple)" rx="1" opacity="0.8"/>
+      <rect x="1728" y="205" width="10" height="6" fill="url(#win-cyan)" rx="1">
+        <animate attributeName="opacity" values="0.7;0.2;0.8;0.7" dur="5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="1744" y="205" width="10" height="6" fill="url(#win-orange)" rx="1" opacity="0.5"/>
+      <rect x="1797" y="175" width="12" height="7" fill="url(#win-purple)" rx="1" opacity="0.9"/>
+      <rect x="1815" y="175" width="12" height="7" fill="url(#win-cyan)" rx="1" opacity="0.7"/>
+      <rect x="1833" y="175" width="12" height="7" fill="url(#win-purple)" rx="1">
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.2s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="1851" y="175" width="12" height="7" fill="url(#win-orange)" rx="1" opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- Ground base -->
+  <rect x="0" y="690" width="1920" height="10" fill="#0a0418" opacity="0.8"/>
+</svg>

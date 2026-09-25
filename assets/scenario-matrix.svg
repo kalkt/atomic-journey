@@ -1,0 +1,341 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <filter id="sm-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="sm-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="sm-label-glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="sm-panel-glow" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Quadrant background gradients (subtle resting state) -->
+    <radialGradient id="q1-grad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ffcc00" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="q2-grad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#00ffdd" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="q3-grad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ff4466" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="q4-grad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#8844ff" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Hover-state bright fills -->
+    <radialGradient id="q1-hover" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ffcc00" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#221800" stop-opacity="0.12"/>
+    </radialGradient>
+    <radialGradient id="q2-hover" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#00ffdd" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#001a14" stop-opacity="0.12"/>
+    </radialGradient>
+    <radialGradient id="q3-hover" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ff4466" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#1a0008" stop-opacity="0.12"/>
+    </radialGradient>
+    <radialGradient id="q4-hover" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#8844ff" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#0c0018" stop-opacity="0.12"/>
+    </radialGradient>
+
+    <!-- Preferred star glow -->
+    <radialGradient id="preferred-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ffdd" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <style>
+    @keyframes sm-enter {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes preferred-pulse {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 0.9; }
+    }
+
+    .main-content { animation: sm-enter 1s ease forwards; }
+
+    /* ── Quadrant interaction ── */
+    .quadrant { cursor: pointer; }
+
+    .q-bg-rest {
+      opacity: 1;
+      transition: opacity 0.35s ease;
+    }
+    .q-bg-hover {
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .quadrant:hover .q-bg-rest  { opacity: 0; }
+    .quadrant:hover .q-bg-hover { opacity: 1; }
+
+    .q-border {
+      transition: opacity 0.35s ease, stroke-width 0.35s ease;
+    }
+    .quadrant:hover .q-border { opacity: 0.9 !important; stroke-width: 2.5; }
+
+    /* Bullets fade in on hover */
+    .q-bullets { opacity: 0; transition: opacity 0.35s ease 0.05s; }
+    .quadrant:hover .q-bullets { opacity: 1; }
+
+    /* Tag line brightens */
+    .q-tag { opacity: 0.55; transition: opacity 0.3s ease; }
+    .quadrant:hover .q-tag { opacity: 1; }
+
+    /* Title text brightens */
+    .q-title { transition: filter 0.3s ease; }
+    .quadrant:hover .q-title { filter: url(#sm-label-glow); }
+
+    /* Subtitle label dims at rest */
+    .q-sub { opacity: 0.4; transition: opacity 0.3s ease; }
+    .quadrant:hover .q-sub { opacity: 0.75; }
+
+    /* Hover hint */
+    .q-hint { opacity: 0; transition: opacity 0.3s ease; font-size: 8px; }
+    .quadrant:not(:hover) .q-hint { opacity: 0.3; }
+
+    /* Preferred star pulsing */
+    .preferred-star { animation: preferred-pulse 3s ease-in-out infinite; }
+    .preferred-border { animation: preferred-pulse 3s ease-in-out infinite; }
+  </style>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="#030508" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="36" text-anchor="middle" font-family="'Orbitron',monospace" font-size="13"
+    fill="#e0e8f0" letter-spacing="4" font-weight="700">2×2 SCENARIO MATRIX — NUCLEAR ENERGY 2050</text>
+  <line x1="60" y1="48" x2="840" y2="48" stroke="#ffffff" stroke-width="0.4" opacity="0.1"/>
+
+  <g class="main-content">
+
+    <!-- Matrix outer border -->
+    <rect x="100" y="78" width="700" height="522" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.1"/>
+
+    <!-- ── AXIS LABELS ── -->
+    <text x="450" y="638" text-anchor="middle" font-family="'Orbitron',monospace" font-size="10"
+      fill="#ffffff" opacity="0.45" letter-spacing="3">GOVERNANCE STRUCTURE</text>
+    <text x="152" y="626" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10"
+      fill="#ffcc00" opacity="0.65">◀  CENTRALIZED</text>
+    <text x="748" y="626" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10"
+      fill="#00ffdd" opacity="0.65">DISTRIBUTED  ▶</text>
+
+    <text x="50" y="340" text-anchor="middle" font-family="'Orbitron',monospace" font-size="10"
+      fill="#ffffff" opacity="0.45" letter-spacing="3" transform="rotate(-90, 50, 340)">TECHNOLOGY</text>
+    <text x="68" y="140" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10"
+      fill="#00ffdd" opacity="0.65" transform="rotate(-90, 68, 140)">BREAKTHROUGH  ▲</text>
+    <text x="68" y="540" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10"
+      fill="#ff4466" opacity="0.65" transform="rotate(-90, 68, 540)">▼  CONSTRAINED</text>
+
+    <!-- Center axes -->
+    <line x1="100" y1="339" x2="800" y2="339" stroke="#ffffff" stroke-width="1.5" opacity="0.3" filter="url(#sm-glow)">
+      <animate attributeName="opacity" values="0.3;0.5;0.3" dur="5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="450" y1="78" x2="450" y2="600" stroke="#ffffff" stroke-width="1.5" opacity="0.3" filter="url(#sm-glow)">
+      <animate attributeName="opacity" values="0.3;0.5;0.3" dur="4s" repeatCount="indefinite"/>
+    </line>
+    <circle cx="450" cy="339" r="5" fill="#ffffff" opacity="0.45" filter="url(#sm-glow)">
+      <animate attributeName="opacity" values="0.45;0.9;0.45" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- ══════════════════════════════
+         Q1: POWERHOUSE ERA
+         top-left — Breakthrough + Centralized
+         x=100–450, y=78–339
+         ══════════════════════════════ -->
+    <g class="quadrant" id="q-powerhouse">
+      <!-- Hit area -->
+      <rect x="100" y="78" width="350" height="261" fill="rgba(0,0,0,0.01)" pointer-events="all"/>
+      <!-- Resting fill -->
+      <rect class="q-bg-rest" x="100" y="78" width="350" height="261" fill="url(#q1-grad)"/>
+      <!-- Hover fill -->
+      <rect class="q-bg-hover" x="100" y="78" width="350" height="261" fill="url(#q1-hover)"/>
+      <!-- Border -->
+      <rect class="q-border" x="104" y="82" width="342" height="253" fill="none"
+        stroke="#ffcc00" stroke-width="1" opacity="0.22" rx="2"/>
+
+      <!-- Label -->
+      <text class="q-sub" x="275" y="106" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="7.5" fill="#ffcc00" letter-spacing="2">QUADRANT 1</text>
+      <text class="q-title" x="275" y="128" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="15" fill="#ffcc00" font-weight="700">POWERHOUSE ERA</text>
+      <line x1="160" y1="136" x2="390" y2="136" stroke="#ffcc00" stroke-width="0.6" opacity="0.3"/>
+
+      <!-- Bullets (visible on hover) -->
+      <g class="q-bullets">
+        <text x="275" y="157" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ffe066" opacity="0.9">85%+ clean electricity by 2048</text>
+        <text x="275" y="174" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ffe066" opacity="0.85">Continental supergrids: China, EU, US</text>
+        <text x="275" y="191" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ffe066" opacity="0.85">40% electricity price reduction</text>
+        <text x="275" y="208" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ffe066" opacity="0.8">Control concentrated in few actors</text>
+        <text x="275" y="225" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ffe066" opacity="0.8">Smaller nations as energy importers</text>
+      </g>
+
+      <!-- Tag -->
+      <rect class="q-tag" x="190" y="296" width="170" height="24" rx="3"
+        fill="rgba(255,200,0,0.12)" stroke="#ffcc00" stroke-width="0.7"/>
+      <text class="q-tag" x="275" y="312" text-anchor="middle" font-family="'Share Tech Mono',monospace"
+        font-size="8.5" fill="#ffcc00">CLEAN · CONCENTRATED · UNEQUAL</text>
+    </g>
+
+    <!-- ══════════════════════════════
+         Q2: DECENTRALIZED BOOM ★ PREFERRED
+         top-right — Breakthrough + Distributed
+         x=450–800, y=78–339
+         ══════════════════════════════ -->
+    <g class="quadrant" id="q-decentralized">
+      <rect x="450" y="78" width="350" height="261" fill="rgba(0,0,0,0.01)" pointer-events="all"/>
+      <!-- Preferred ambient halo -->
+      <ellipse cx="625" cy="208" rx="155" ry="105" fill="url(#preferred-glow)" filter="url(#sm-soft)"/>
+      <!-- Resting fill -->
+      <rect class="q-bg-rest" x="450" y="78" width="350" height="261" fill="url(#q2-grad)"/>
+      <!-- Hover fill -->
+      <rect class="q-bg-hover" x="450" y="78" width="350" height="261" fill="url(#q2-hover)"/>
+      <!-- Preferred animated border -->
+      <rect class="q-border preferred-border" x="454" y="82" width="342" height="253" fill="none"
+        stroke="#00ffdd" stroke-width="1.5" opacity="0.6" rx="2"/>
+
+      <!-- Preferred star -->
+      <text class="preferred-star" x="782" y="104" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="16" fill="#00ffdd" filter="url(#sm-glow)">★</text>
+
+      <!-- Label -->
+      <text class="q-sub" x="622" y="106" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="7.5" fill="#00ffdd" letter-spacing="2">QUADRANT 2 · ★ PREFERRED</text>
+      <text class="q-title" x="622" y="128" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="15" fill="#00ffdd" font-weight="700">DECENTRALIZED BOOM</text>
+      <line x1="508" y1="136" x2="736" y2="136" stroke="#00ffdd" stroke-width="0.6" opacity="0.4"/>
+
+      <!-- Bullets -->
+      <g class="q-bullets">
+        <text x="622" y="157" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#80ffe8" opacity="0.95">60%+ households in distributed generation</text>
+        <text x="622" y="174" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#80ffe8" opacity="0.9">AI-managed local microgrids globally</text>
+        <text x="622" y="191" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#80ffe8" opacity="0.9">Rural electrification via cooperatives</text>
+        <text x="622" y="208" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#80ffe8" opacity="0.85">Nuclear SMRs at community scale</text>
+        <text x="622" y="225" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#80ffe8" opacity="0.85">Resilient, locally governed systems</text>
+      </g>
+
+      <!-- Tag -->
+      <rect class="q-tag" x="537" y="296" width="170" height="24" rx="3"
+        fill="rgba(0,255,221,0.14)" stroke="#00ffdd" stroke-width="0.9">
+        <animate attributeName="opacity" values="1;0.6;1" dur="2.5s" repeatCount="indefinite"/>
+      </rect>
+      <text class="q-tag" x="622" y="312" text-anchor="middle" font-family="'Share Tech Mono',monospace"
+        font-size="8.5" fill="#00ffdd">CLEAN · DISTRIBUTED · EQUITABLE</text>
+    </g>
+
+    <!-- ══════════════════════════════
+         Q3: STATIC GRID
+         bottom-left — Constrained + Centralized
+         x=100–450, y=339–600
+         ══════════════════════════════ -->
+    <g class="quadrant" id="q-static">
+      <rect x="100" y="339" width="350" height="261" fill="rgba(0,0,0,0.01)" pointer-events="all"/>
+      <rect class="q-bg-rest" x="100" y="339" width="350" height="261" fill="url(#q3-grad)"/>
+      <rect class="q-bg-hover" x="100" y="339" width="350" height="261" fill="url(#q3-hover)"/>
+      <rect class="q-border" x="104" y="343" width="342" height="253" fill="none"
+        stroke="#ff4466" stroke-width="1" opacity="0.22" rx="2"/>
+
+      <text class="q-sub" x="275" y="366" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="7.5" fill="#ff4466" letter-spacing="2">QUADRANT 3</text>
+      <text class="q-title" x="275" y="388" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="15" fill="#ff4466" font-weight="700">STATIC GRID</text>
+      <line x1="160" y1="396" x2="390" y2="396" stroke="#ff4466" stroke-width="0.6" opacity="0.3"/>
+
+      <g class="q-bullets">
+        <text x="275" y="417" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ff8899" opacity="0.9">65%+ fossil fuels still by 2048</text>
+        <text x="275" y="434" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ff8899" opacity="0.85">Rolling blackouts in major cities</text>
+        <text x="275" y="451" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ff8899" opacity="0.85">Grid congestion as defining feature</text>
+        <text x="275" y="468" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ff8899" opacity="0.8">Energy as geopolitical leverage tool</text>
+        <text x="275" y="485" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#ff8899" opacity="0.8">Rooftop solar &lt;8% globally</text>
+      </g>
+
+      <rect class="q-tag" x="190" y="554" width="170" height="24" rx="3"
+        fill="rgba(255,68,102,0.10)" stroke="#ff4466" stroke-width="0.7"/>
+      <text class="q-tag" x="275" y="570" text-anchor="middle" font-family="'Share Tech Mono',monospace"
+        font-size="8.5" fill="#ff4466">FOSSIL · CENTRALIZED · UNEQUAL</text>
+    </g>
+
+    <!-- ══════════════════════════════
+         Q4: FRAGMENTED PATCHWORK
+         bottom-right — Constrained + Distributed
+         x=450–800, y=339–600
+         ══════════════════════════════ -->
+    <g class="quadrant" id="q-fragmented">
+      <rect x="450" y="339" width="350" height="261" fill="rgba(0,0,0,0.01)" pointer-events="all"/>
+      <rect class="q-bg-rest" x="450" y="339" width="350" height="261" fill="url(#q4-grad)"/>
+      <rect class="q-bg-hover" x="450" y="339" width="350" height="261" fill="url(#q4-hover)"/>
+      <rect class="q-border" x="454" y="343" width="342" height="253" fill="none"
+        stroke="#8844ff" stroke-width="1" opacity="0.22" rx="2"/>
+
+      <text class="q-sub" x="622" y="366" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="7.5" fill="#8844ff" letter-spacing="2">QUADRANT 4</text>
+      <text class="q-title" x="622" y="388" text-anchor="middle" font-family="'Orbitron',monospace"
+        font-size="15" fill="#8844ff" font-weight="700">FRAGMENTED PATCHWORK</text>
+      <line x1="508" y1="396" x2="736" y2="396" stroke="#8844ff" stroke-width="0.6" opacity="0.3"/>
+
+      <g class="q-bullets">
+        <text x="622" y="417" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#bb88ff" opacity="0.9">No dominant energy model by 2048</text>
+        <text x="622" y="434" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#bb88ff" opacity="0.85">Solar + diesel + microgrid patchwork</text>
+        <text x="622" y="451" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#bb88ff" opacity="0.85">International cooperation breakdown</text>
+        <text x="622" y="468" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#bb88ff" opacity="0.8">Energy poverty by geography</text>
+        <text x="622" y="485" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="10.5"
+          fill="#bb88ff" opacity="0.8">Critical mineral supply conflicts</text>
+      </g>
+
+      <rect class="q-tag" x="537" y="554" width="170" height="24" rx="3"
+        fill="rgba(136,68,255,0.10)" stroke="#8844ff" stroke-width="0.7"/>
+      <text class="q-tag" x="622" y="570" text-anchor="middle" font-family="'Share Tech Mono',monospace"
+        font-size="8.5" fill="#8844ff">FRAGMENTED · UNCOORDINATED · UNEQUAL</text>
+    </g>
+
+    <!-- Axis tick marks -->
+    <g stroke="#ffffff" stroke-width="0.5" opacity="0.2">
+      <line x1="450" y1="74" x2="450" y2="82"/>
+      <line x1="450" y1="596" x2="450" y2="604"/>
+      <line x1="96"  y1="339" x2="104" y2="339"/>
+      <line x1="796" y1="339" x2="804" y2="339"/>
+    </g>
+
+    <!-- Corner tactical brackets -->
+    <polyline points="10,10 10,38 38,38" fill="none" stroke="#cc00ff" stroke-width="1" opacity="0.3"/>
+    <polyline points="890,10 890,38 862,38" fill="none" stroke="#cc00ff" stroke-width="1" opacity="0.3"/>
+    <polyline points="10,690 10,662 38,662" fill="none" stroke="#cc00ff" stroke-width="1" opacity="0.3"/>
+    <polyline points="890,690 890,662 862,662" fill="none" stroke="#cc00ff" stroke-width="1" opacity="0.3"/>
+
+  </g><!-- /main-content -->
+</svg>
